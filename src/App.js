@@ -8,9 +8,11 @@ const userDisplay = JSON.stringify(user);
 
   return (
     <div className="App">
-      Aura App skeleton
+      Aura App skeleton <br />
       {userDisplay}
+      
       <Login />
+      
     </div>
   );
 }

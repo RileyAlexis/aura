@@ -21,8 +21,6 @@ router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
 
-    console.log('register user route called');
-
   const queryText = `INSERT INTO "users" (username, password)
     VALUES ($1, $2) RETURNING id`;
   pool.query(queryText, [username, password])
@@ -38,7 +36,12 @@ router.post('/register', (req, res, next) => {
 // this middleware will run our POST if successful
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
-  res.sendStatus(200);
+  const dataObj = {
+    userId: req.user.id,
+    username: req.user.username
+  }
+
+  res.send(dataObj);
 });
 
 // clear all server session information about this user

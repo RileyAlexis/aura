@@ -42,11 +42,11 @@ passport.use(
       .then((result) => {
         const user = result && result.rows && result.rows[0];
         if (user && encryptLib.comparePassword(password, user.password)) {
-          console.log('All good! Passwords match!');
+          // console.log('All good! Passwords match!');
           // done takes an error (null in this case) and a user
           done(null, user);
         } else {
-          console.log('Not good! Username and password do not match.');
+          // console.log('Not good! Username and password do not match.');
           // done takes an error (null in this case) and a user (also null in this case)
           // this will result in the server returning a 401 status code
           done(null, null);

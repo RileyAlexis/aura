@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+
+//Material UI
 import { Typography, TextField, Button } from "@mui/material";
+
+import { setUserData } from "../../modules/reducers/userStats";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -8,6 +13,8 @@ function Login() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [login, setLogin] = useState(true);
   const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
 
   const processLogin = () => {
     const dataObj = {
@@ -18,7 +25,8 @@ function Login() {
     axios
       .post("/user/login", dataObj)
       .then((response) => {
-        console.log("Login Successful");
+        console.log("Login Successful", response.data);
+        dispatch(setUserData(response.data));
       })
       .catch((error) => {
         console.log("Error Logging in", error);
