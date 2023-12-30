@@ -33,6 +33,15 @@ useEffect(() => {
       Aura
       </Typography>
       </Paper>
+      <Paper variant="elevation">
+        <Typography variant="body">
+        Player: {user.username}
+        </Typography>
+        <Typography variant="body">
+          
+        </Typography>
+        
+      </Paper>
       </Grid>
       
      
