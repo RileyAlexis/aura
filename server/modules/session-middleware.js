@@ -1,6 +1,7 @@
 // No changes should be required in this file
 
 const cookieSession = require('cookie-session');
+require('dotenv').config();
 
 
 /*
