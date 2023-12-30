@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import Login from "./components/Login/Login";
 
 function App() {
 
@@ -9,6 +10,7 @@ const userDisplay = JSON.stringify(user);
     <div className="App">
       Aura App skeleton
       {userDisplay}
+      <Login />
     </div>
   );
 }
