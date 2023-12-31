@@ -61,8 +61,8 @@ export const auraDefault = createTheme({
             borderRadius: 3,
             boxShadow: '0 1px 2px 1px rgba(255, 105, 135, .1)',
             color: 'white',
-            height: 48,
-            padding: '0 30px',
+            padding: '15px',
+            margin: '10px',
           },
         },
       },
@@ -70,11 +70,26 @@ export const auraDefault = createTheme({
       styleOverrides: {
         root:{
           boxShadow: '0 1px 1px 1px rgba(250, 160, 60, .25)',
-          margin: '15px',
-          padding: '5px',
+          marginBottom: '12px',
+          padding: '10px',
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          padding: '5px',
+          margin: '0px',
+        }
+      }
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          padding: '5px',
+        }
+      }
+    }
     },
     props: {
       MuiList: {

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 
 //Material UI
-import { Typography, TextField, Button } from "@mui/material";
+import { Typography, TextField, Button, Paper, Box } from "@mui/material";
 
 import { setUserData } from "../../modules/reducers/userStats";
 
@@ -35,6 +35,14 @@ function Login() {
 
   const createNewUser = () => {
     console.log("create new user function called");
+    if (!username) {
+      setError("Enter a username");
+      return;
+    }
+    if (!password) {
+      setError("Enter a password");
+      return;
+    }
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -56,9 +64,9 @@ function Login() {
   };
 
   return (
-    <div>
+    <Paper square={false}>
       {login && (
-        <>
+        <Box>
           <Typography variant="h4">User Login/Register</Typography>
           <TextField
             variant="filled"
@@ -77,26 +85,26 @@ function Login() {
           />
           <br /> <br />
           <br />
-          <div className="buttonBox">
+          <Box>
             <Button variant="outlined" onClick={processLogin}>
               Log In
             </Button>
             <Button variant="outlined" onClick={(e) => setLogin(!login)}>
               New User
             </Button>
-          </div>
+          </Box>
           {error && (
-            <Typography m={2} color="red" variant="body">
+            <Typography m={2} color="warning" variant="body">
               {error}
             </Typography>
           )}
-        </>
+        </Box>
       )}
 
       {/* Create new user */}
       {!login && (
-        <div>
-          <Typography variant="body">
+        <Box>
+          <Typography variant="h4">
             Enter username and create a password:
           </Typography>
           <br /> <br />
@@ -126,22 +134,22 @@ function Login() {
           />
           <br /> <br />
           <br />
-          <div className="buttonBox">
+          <Box>
             <Button variant="outlined" onClick={createNewUser}>
               Create New User
             </Button>
             <Button variant="outlined" onClick={(e) => setLogin(!login)}>
               Back
             </Button>
-          </div>
+          </Box>
           {error && (
-            <Typography m={2} color="red" variant="body">
+            <Typography m={2} color="warning" variant="body">
               {error}
             </Typography>
           )}
-        </div>
+        </Box>
       )}
-    </div>
+    </Paper>
   );
 }
 

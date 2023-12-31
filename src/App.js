@@ -6,8 +6,10 @@ import { auraDefault } from "./modules/auraDefault";
 import Login from "./components/Login/Login";
 
 //Material UI
-import { Grid, Typography, Paper } from "@mui/material";
+import { Grid, Typography, Paper, Stack, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
+import AccountMenu from "./components/AccountMenu/AccountMenu";
+import AuraTitle from "./components/Basics/AuraTitle";
 
 
 
@@ -25,43 +27,21 @@ useEffect(() => {
 
   return (
     <ThemeProvider theme={auraDefault}>
-    <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} maxWidth="xl">
 
-      <Grid item xs={12} sm={4} md={4} lg={4}>
-        <Paper variant="elevation">
-      <Typography variant="h3" color='#04d600'>
-      Aura
-      </Typography>
-      </Paper>
-      <Paper variant="elevation">
-        <Typography variant="body">
-        Player: {user.username}
-        </Typography>
-        <Typography variant="body">
-          
-        </Typography>
+    <Grid container rowSpacing={2} columnSpacing={2} maxWidth="lg"
+      justifyContent={'space-between'} alignItems={"flex-start"}>
         
-      </Paper>
+      <Grid item component={AuraTitle} />   
+      <Grid item component={AccountMenu} />
       </Grid>
-      
-     
-     <Grid item xs={12} sm={4} md={4} lg={4}>
-      <Paper>
-      {userDisplay}
-      </Paper>
-        
-      </Grid>
-
-
-
-
       {user.id !== undefined &&
-      <Grid item xs={12} md={12} lg={8}>
-      <Login />
+      <>
+      <Grid container justifyContent={'center'} alignItems={"center"}>
+        <Grid item component={Login} />
       </Grid>
-    
+      </>
       }
-    </Grid>
+
     </ThemeProvider>
   );
 }
