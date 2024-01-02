@@ -70,8 +70,8 @@ export const auraDefault = createTheme({
       styleOverrides: {
         root:{
           boxShadow: '0 1px 1px 1px rgba(250, 160, 60, .25)',
-          marginBottom: '12px',
-          padding: '10px',
+          marginBottom: '2px',
+          padding: '2px',
         },
       },
     },
@@ -80,6 +80,14 @@ export const auraDefault = createTheme({
         root: {
           padding: '5px',
           margin: '0px',
+        }
+      }
+    },
+    MuiGrid: {
+      styleOverrides: {
+        root: {
+          border: '1px solid white',
+          margin: '3px',
         }
       }
     },
