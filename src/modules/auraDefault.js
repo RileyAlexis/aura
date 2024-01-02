@@ -86,7 +86,7 @@ export const auraDefault = createTheme({
     MuiGrid: {
       styleOverrides: {
         root: {
-          border: '1px solid white',
+          // border: '1px solid white',
           margin: '3px',
         }
       }

@@ -59,16 +59,19 @@ useEffect(() => {
     </Grid>
     {/* End title and nav bar */}
 
-    <Grid container rowSpacing={2} columnSpacing={2} justifyContent={"flex-start"}>
-      <Grid item component={Sidebar} xs={12} md={5} />
-      <Grid item xs={12} md={8}>
+    {/* Main content grid */}
+    <Grid container rowSpacing={2} columnSpacing={2} justifyContent={"flex-start"} alignItems={"baseline"}>
+      <Grid item component={Sidebar} xs={12} md={3} />
+      {console.log(user)}
+      <Grid item xs={12} md={9}>
         <Paper>
-          {user.id !== undefined && 
+          {/* //Show login if user is not logged in  */}
+          {user.id === null && 
            <Login />
           }
-          {console.log(user)}
+          {/* //Show game content once user logs in  */}
           {user.userId && 
-          <Typography>Main Box Content Goes Here!</Typography>
+          <Typography>Main Box Content Goes Here</Typography>
           }
           </Paper>
           </Grid>

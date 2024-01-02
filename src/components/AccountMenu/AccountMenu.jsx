@@ -1,9 +1,14 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+
+import { removeUser } from "../../modules/reducers/userStats";
 
 import { Menu, IconButton, MenuItem, Box } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 
 function AccountMenu() {
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -15,8 +20,14 @@ function AccountMenu() {
   };
 
   const handleLogout = () => {
-    // Add your logout logic here
-    // For example: perform logout actions
+    axios
+      .post("/user/logout")
+      .then((response) => {
+        dispatch(removeUser());
+      })
+      .catch((error) => {
+        console.error("Error logging out", error);
+      });
     handleClose();
   };
 
