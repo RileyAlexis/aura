@@ -28,9 +28,9 @@ export const auraDefault = createTheme({
         secondary: '#047d01',
         disabled: '#6e8a6e',
       },
-      background: {
+      backgroundColor: {
         default: 'rgba(0,0,0,0.78)',
-        paper: '#1c1c1c',
+        paper: 'rgba(28, 28, 28, 0.65)',
       },
       error: {
         main: '#0088ad',
@@ -45,9 +45,6 @@ export const auraDefault = createTheme({
         main: '#69f0ae',
       },
       divider: '#1e3d10',
-    },
-    body: {
-      backgroundColor: 'rgba(20, 20, 20, 1)',
     },
     typography: {
       fontFamily: 'Open Sans',
@@ -72,6 +69,7 @@ export const auraDefault = createTheme({
           boxShadow: '0 1px 1px 1px rgba(250, 160, 60, .25)',
           marginBottom: '2px',
           padding: '2px',
+          background: 'rgba(28, 28, 28, 0.85)',
         },
       },
     },
@@ -84,6 +82,14 @@ export const auraDefault = createTheme({
       }
     },
     MuiGrid: {
+      variants : [
+        {
+          props: { variant: 'border'},
+          style: {
+            border: '2px solid gray',
+          }
+        }
+      ],
       styleOverrides: {
         root: {
           // border: '1px solid white',

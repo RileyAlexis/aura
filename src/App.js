@@ -14,6 +14,7 @@ import Topbar from "./components/Basics/Topbar";
 import MoveableWindow from "./components/Basics/MoveableWindow";
 import Sidebar  from './components/Basics/Sidebar';
 
+import './App.css';
 
 
 function App() {
@@ -31,7 +32,6 @@ function App() {
   }
 
 const user = useSelector(store => store.user);
-const userDisplay = JSON.stringify(user);
 const [currentTheme, setCurrentTheme] = useState(auraDefault);
 
 let windows = [
@@ -40,13 +40,17 @@ let windows = [
 ];
 
 useEffect(() => {
-  document.body.style.backgroundColor = currentTheme.body.backgroundColor;
+  document.body.style.backgroundColor = currentTheme.palette.backgroundColor.default;
 }, []);
 
 
   return (
     <ThemeProvider theme={auraDefault}>
-<Box sx={{ flexGrow: 1, marginRight: 3 }}>
+      
+<Box 
+sx={{ flexGrow: 1, marginRight: 0, 
+  backgroundImage:  'url("/background01.jpg")', height: '100vh'
+  }}>
     
     {/* Top title and nav bar */}
     <Grid container rowSpacing={2} columnSpacing={2} gap={2} 
@@ -60,20 +64,23 @@ useEffect(() => {
     {/* End title and nav bar */}
 
     {/* Main content grid */}
-    <Grid container rowSpacing={2} columnSpacing={2} justifyContent={"flex-start"} alignItems={"baseline"}>
-      <Grid item component={Sidebar} xs={12} md={3} />
-      {console.log(user)}
+    <Grid variant="border" container rowSpacing={2} columnSpacing={2} justifyContent={"flex-start"} alignItems={"baseline"}>
+      <Grid variant="border" item component={Sidebar} xs={12} md={3} />
       <Grid item xs={12} md={9}>
-        <Paper>
           {/* //Show login if user is not logged in  */}
           {user.id === null && 
            <Login />
           }
           {/* //Show game content once user logs in  */}
-          {user.userId && 
+          {user.userId &&
+          <Paper> 
           <Typography>Main Box Content Goes Here</Typography>
-          }
+          
+          <Typography variant="body">Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content v Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box contentMain Box content Main Box content Main Box content Main Box content Main Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box content 
+            </Typography>
+          
           </Paper>
+          }
           </Grid>
         
         
@@ -81,6 +88,7 @@ useEffect(() => {
 
       </Grid>
       </Box>
+      
     </ThemeProvider>
   );
 };
