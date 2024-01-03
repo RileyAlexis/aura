@@ -3,7 +3,7 @@ import AccountMenu from "../AccountMenu/AccountMenu";
 
 function Topbar() {
   return (
-    <Paper elevation={3}>
+    <Paper elevation={2} sx={{ paddingRight: "8px" }}>
       <AccountMenu />
     </Paper>
   );

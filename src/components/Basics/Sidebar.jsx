@@ -1,5 +1,6 @@
-import { List, ListItem, Paper, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
+
+import { List, ListItem, Paper, Typography } from "@mui/material";
 
 function Sidebar() {
   const user = useSelector((store) => store.user);
@@ -7,7 +8,7 @@ function Sidebar() {
   return (
     <Paper elevation={2}>
       <Typography>Side Bar Content</Typography>
-      <List>
+      <List dense>
         <ListItem>Player: {user.username}</ListItem>
         <ListItem>Level: </ListItem>
         <ListItem>Location: </ListItem>

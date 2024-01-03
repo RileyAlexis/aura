@@ -51,4 +51,19 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.get('/check-token', (req, res) => {
+  console.log("check-token route called");
+  if (req.isAuthenticated()) {
+    console.log("Authenticated", req.user);
+    const dataObj = {
+      userId: req.user.id,
+      username: req.user.username
+    }
+  
+    res.send(dataObj);
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 module.exports = router;

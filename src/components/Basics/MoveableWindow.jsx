@@ -11,7 +11,7 @@ const MoveableWindow = ({ id, position, size, children }) => {
   const windows = []; // Maintain an array to track window positions
 
   const snapToGrid = (x, y) => {
-    const gridSpacing = 100; // Adjust grid spacing as needed
+    const gridSpacing = 20; // Adjust grid spacing as needed
     const snappedX = Math.round(x / gridSpacing) * gridSpacing;
     const snappedY = Math.round(y / gridSpacing) * gridSpacing;
     return { x: snappedX, y: snappedY };

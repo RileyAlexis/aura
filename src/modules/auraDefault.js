@@ -68,7 +68,7 @@ export const auraDefault = createTheme({
         root:{
           boxShadow: '0 1px 1px 1px rgba(250, 160, 60, .25)',
           marginBottom: '2px',
-          padding: '2px',
+          padding: '8px',
           background: 'rgba(28, 28, 28, 0.85)',
         },
       },
@@ -77,7 +77,7 @@ export const auraDefault = createTheme({
       styleOverrides: {
         root: {
           padding: '5px',
-          margin: '0px',
+          margin: '5px',
         }
       }
     },
@@ -93,7 +93,7 @@ export const auraDefault = createTheme({
       styleOverrides: {
         root: {
           // border: '1px solid white',
-          margin: '3px',
+          // margin: '3px',
         }
       }
     },

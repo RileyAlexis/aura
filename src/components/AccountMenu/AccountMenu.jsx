@@ -32,7 +32,7 @@ function AccountMenu() {
   };
 
   return (
-    <Box>
+    <>
       <IconButton
         aria-controls="account-menu"
         aria-haspopup="true"
@@ -53,7 +53,7 @@ function AccountMenu() {
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <MenuItem onClick={handleLogout}>Log Out</MenuItem>
       </Menu>
-    </Box>
+    </>
   );
 }
 
