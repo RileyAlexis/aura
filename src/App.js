@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { socket } from "./sockets";
 import axios from "axios";
 
 //Material UI
@@ -9,7 +11,6 @@ import { useMediaQuery } from '@mui/material';
 import { auraDefault } from "./modules/auraDefault";
 
 
-import { useEffect, useState } from "react";
 
 //Components
 import Login from "./components/Login/Login";
@@ -43,6 +44,7 @@ const user = useSelector(store => store.user);
 const dispatch = useDispatch();
 const [currentTheme, setCurrentTheme] = useState(auraDefault);
 const isSmallScreen = useMediaQuery('(max-width: 600px)');
+const [msgs, setMsgs] = useState([]);
 
 let windows = [
   {id: 0, position: {x: 0, y: 0}, size: {x: 200, y: 100}, child: <WindowOne />},
@@ -51,10 +53,10 @@ let windows = [
 
 useEffect(() => {
   document.body.style.backgroundColor = currentTheme.palette.backgroundColor.default;
+  
   const checkToken = async () => {
     try {
       const response = await axios.get('/user/check-token');
-      console.log(response.data);
       dispatch(setUserData(response.data));
     } catch (error) {
       console.log("Error authenticating session", error);
@@ -62,6 +64,26 @@ useEffect(() => {
     }
   };
   checkToken();
+  
+  const openSockets = () => {
+    console.log(user.username, socket);
+    socket.connect();
+  socket.on('connect', () => {
+    console.log('Connected to Server');
+  });
+  socket.on('disconect', () => {
+    console.log("Disconnected from server");
+  });
+
+  socket.on('msg:get', (data) => {
+    console.log(data);
+    setMsgs(data.messages);
+  });
+
+  }
+  openSockets();
+
+
 }, []);
 
 
@@ -94,17 +116,17 @@ useEffect(() => {
           
           {/* //Show game content once user logs in  */}
           {user.userId &&
-          <MoveableWindow id={windows[0].id} size={windows[0].size} position={windows[0].position}>
-            
-            <WindowOne />
-          </MoveableWindow>
-          // <Paper>
-          // <Typography>Main Box Content Goes Here</Typography>
+          // <MoveableWindow id={windows[0].id} size={windows[0].size} position={windows[0].position}>  
+          //   <WindowOne />
+          // </MoveableWindow>
+          <Paper>
+          <Typography>Main Box Content Goes Here</Typography>
           
-          // <Typography variant="body">Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content v Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box contentMain Box content Main Box content Main Box content Main Box content Main Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box content 
-          //   </Typography>
+          <Typography variant="body">Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content v Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box contentMain Box content Main Box content Main Box content Main Box content Main Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box content 
+            </Typography><br /><br />
+            <Typography variant="h5">{msgs.user}: {msgs.message}</Typography>
           
-          // </Paper>
+          </Paper>
           }
           </Grid>
         

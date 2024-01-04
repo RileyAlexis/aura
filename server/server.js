@@ -1,8 +1,20 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
+const cors = require('cors');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+
+// const bodyParser = require('body-parser');
 
 const app = express();
+const httpServer = createServer(app);
+  const io = new Server(httpServer, {
+    cors: {
+        origin: "http://localhost:3000",
+        credentials: true
+    }
+});
+
 
 const sessionMiddleware = require('./modules/session-middleware');
 const passport = require('./strategies/user.strategy');
@@ -12,11 +24,15 @@ const userRouter = require('./routes/user.router');
 
 /** ---------- MIDDLEWARE ---------- **/
 // Body parser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+// app.use(cors({
+//     origin: 'http://localhost:3000',
+//     credentials: true,
+// }));
 
 app.use(sessionMiddleware);
-
 app.use(passport.initialize());
 app.use(passport.session());
   
@@ -26,13 +42,30 @@ app.use(passport.session());
 /** ---------- EXPRESS ROUTES ---------- **/
 
 app.use('/user', userRouter);
-
 app.use(express.static('build'));
+
+/* --------------- Websockets connections ----------------- */
+
+const messages = {
+    user: 'Riley',
+    message: 'Websockets has connected to the things and it probably mostly works now'
+};
+
+io.on('connection', (socket) => {
+    console.log('A user connected to ', socket.id);
+    socket.emit("msg:get", { messages });
+    // socket.on('disconnect ', socket.id);
+});
+
+io.on('disconnection', (socket) => {
+    console.log("A user disconected from ", socket.id);
+});
+
 
 /** ---------- START SERVER ---------- **/
 const PORT = process.env.PORT || 5001;
 
 
-app.listen(PORT,  () => {
+httpServer.listen(PORT,  () => {
     console.log('Listening on port: ', PORT);
 });

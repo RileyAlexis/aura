@@ -19,7 +19,6 @@ const MoveableWindow = ({ id, position, size, children }) => {
 
   const handleDrag = (e, ui) => {
     const { x, y } = snapToGrid(ui.x, ui.y);
-    console.log(windows);
     // Check for collisions with other windows
     const newPosition = { x, y };
     const collides = windows.some((win) => {
