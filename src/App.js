@@ -45,6 +45,7 @@ const dispatch = useDispatch();
 const [currentTheme, setCurrentTheme] = useState(auraDefault);
 const isSmallScreen = useMediaQuery('(max-width: 600px)');
 const [msgs, setMsgs] = useState([]);
+const [onlineUsers, setOnlineUsers] = useState([]);
 
 let windows = [
   {id: 0, position: {x: 0, y: 0}, size: {x: 200, y: 100}, child: <WindowOne />},
@@ -58,31 +59,40 @@ useEffect(() => {
     try {
       const response = await axios.get('/user/check-token');
       dispatch(setUserData(response.data));
+
     } catch (error) {
       console.log("Error authenticating session", error);
       setUserData(null);
     }
   };
   checkToken();
-  
+
   const openSockets = () => {
-    console.log(user.username, socket);
-    socket.connect();
+  socket.connect();
   socket.on('connect', () => {
-    console.log('Connected to Server');
+    console.log('Connected to Server', user.username);
   });
+
   socket.on('disconect', () => {
     console.log("Disconnected from server");
   });
 
   socket.on('msg:get', (data) => {
-    console.log(data);
     setMsgs(data.messages);
   });
 
-  }
-  openSockets();
+  socket.on('onlineUsers', (data) => {
+    console.log('onlineUsers received', data);
+    setOnlineUsers(data);
+  });
 
+  socket.emit('onlineUsers', ({ user: user.username }));
+
+  }
+
+openSockets();
+
+  
 
 }, []);
 
@@ -125,6 +135,7 @@ useEffect(() => {
           <Typography variant="body">Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content v Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box contentMain Box content Main Box content Main Box content Main Box content Main Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box content 
             </Typography><br /><br />
             <Typography variant="h5">{msgs.user}: {msgs.message}</Typography>
+            <Typography variant="h5">{JSON.stringify(onlineUsers)}</Typography>
           
           </Paper>
           }

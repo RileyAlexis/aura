@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 
@@ -15,7 +16,6 @@ const httpServer = createServer(app);
     }
 });
 
-
 const sessionMiddleware = require('./modules/session-middleware');
 const passport = require('./strategies/user.strategy');
 
@@ -24,8 +24,8 @@ const userRouter = require('./routes/user.router');
 
 /** ---------- MIDDLEWARE ---------- **/
 // Body parser middleware
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.use(cors({
 //     origin: 'http://localhost:3000',
@@ -46,15 +46,25 @@ app.use(express.static('build'));
 
 /* --------------- Websockets connections ----------------- */
 
+
 const messages = {
     user: 'Riley',
     message: 'Websockets has connected to the things and it probably mostly works now'
 };
 
+const onlineUsers = [];
+
 io.on('connection', (socket) => {
     console.log('A user connected to ', socket.id);
+    
+    socket.on('onlineUsers', (data) => {
+        console.log('Online Users received', data);
+        onlineUsers.push(data);
+    });
+
     socket.emit("msg:get", { messages });
-    // socket.on('disconnect ', socket.id);
+    socket.emit("onlineUsers", { onlineUsers });
+    
 });
 
 io.on('disconnection', (socket) => {
