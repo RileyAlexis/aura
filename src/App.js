@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { socket } from "./sockets";
 import axios from "axios";
 
 //Material UI
@@ -22,6 +21,9 @@ import Sidebar  from './components/Basics/Sidebar';
 
 //Redux Actions
 import { setUserData } from "./modules/reducers/userStats";
+
+//Sockets
+import { openSockets } from "./modules/auraSockets";
 
 import './App.css';
 
@@ -45,7 +47,6 @@ const dispatch = useDispatch();
 const [currentTheme, setCurrentTheme] = useState(auraDefault);
 const isSmallScreen = useMediaQuery('(max-width: 600px)');
 const [msgs, setMsgs] = useState([]);
-const [onlineUsers, setOnlineUsers] = useState([]);
 
 let windows = [
   {id: 0, position: {x: 0, y: 0}, size: {x: 200, y: 100}, child: <WindowOne />},
@@ -65,35 +66,9 @@ useEffect(() => {
       setUserData(null);
     }
   };
+
   checkToken();
-
-  const openSockets = () => {
-  socket.connect();
-  socket.on('connect', () => {
-    console.log('Connected to Server', user.username);
-  });
-
-  socket.on('disconect', () => {
-    console.log("Disconnected from server");
-  });
-
-  socket.on('msg:get', (data) => {
-    setMsgs(data.messages);
-  });
-
-  socket.on('onlineUsers', (data) => {
-    console.log('onlineUsers received', data);
-    setOnlineUsers(data);
-  });
-
-  socket.emit('onlineUsers', ({ user: user.username }));
-
-  }
-
-openSockets();
-
-  
-
+  openSockets(user, setMsgs);
 }, []);
 
 
@@ -135,7 +110,7 @@ openSockets();
           <Typography variant="body">Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content v Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box contentMain Box content Main Box content Main Box content Main Box content Main Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box content 
             </Typography><br /><br />
             <Typography variant="h5">{msgs.user}: {msgs.message}</Typography>
-            <Typography variant="h5">{JSON.stringify(onlineUsers)}</Typography>
+            
           
           </Paper>
           }

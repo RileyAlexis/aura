@@ -21,7 +21,6 @@ function Login() {
       username: username,
       password: password,
     };
-
     axios
       .post("/user/login", dataObj)
       .then((response) => {
@@ -56,6 +55,7 @@ function Login() {
         .post("user/register/", dataObj)
         .then((response) => {
           console.log("User created successfully");
+          dispatch(setUserData(response.data));
         })
         .catch((error) => {
           console.log("User creation not sucessful", error);
@@ -67,7 +67,7 @@ function Login() {
     <Paper square={false}>
       {login && (
         <Box>
-          <Typography variant="h4">User Login/Register</Typography>
+          <Typography variant="h4">User Login</Typography>
           <TextField
             variant="filled"
             label="Email"
