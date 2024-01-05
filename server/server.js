@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 
+
 // const bodyParser = require('body-parser');
 
 const app = express();
@@ -21,16 +22,12 @@ const passport = require('./strategies/user.strategy');
 
 //Routes
 const userRouter = require('./routes/user.router');
+const { rejectUnauthenticated } = require('./modules/authentication-middleware');
 
 /** ---------- MIDDLEWARE ---------- **/
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// app.use(cors({
-//     origin: 'http://localhost:3000',
-//     credentials: true,
-// }));
 
 app.use(sessionMiddleware);
 app.use(passport.initialize());
@@ -45,7 +42,13 @@ app.use('/user', userRouter);
 app.use(express.static('build'));
 
 /* --------------- Websockets connections ----------------- */
-
+const checkAuth = (req, res, next) => {
+    if (req.user) {
+        console.log('Verified');
+      return next();
+    }
+    res.status(401).send('Unauthorized');
+  };
 
 const messages = {
     user: 'Riley',
@@ -53,6 +56,16 @@ const messages = {
 };
 
 const onlineUsers = [];
+io.engine.use(sessionMiddleware);
+
+io.use((socket, next) => {
+    console.log(socket.request.session);
+    const handshakeData = socket.request;
+    if (handshakeData.session && handshakeData.session.passport && handshakeData.session.passport.user) {
+        return next();
+    }
+    next(new Error('Unauthorized'));
+});
 
 io.on('connection', (socket) => {
     console.log('A user connected to ', socket.id);
@@ -67,7 +80,7 @@ io.on('connection', (socket) => {
     
 });
 
-io.on('disconnection', (socket) => {
+io.on('disconnect', (socket) => {
     console.log("A user disconected from ", socket.id);
 });
 
