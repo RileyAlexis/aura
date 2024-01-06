@@ -5,11 +5,9 @@ import axios from "axios";
 
 //Material UI
 import { ThemeProvider } from "@emotion/react";
-import { Grid, Typography, Box, Paper } from "@mui/material";
+import { Grid, Typography, Box, Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { useMediaQuery } from '@mui/material';
 import { auraDefault } from "./modules/auraDefault";
-
-
 
 //Components
 import Login from "./components/Login/Login";
@@ -47,6 +45,7 @@ const dispatch = useDispatch();
 const [currentTheme, setCurrentTheme] = useState(auraDefault);
 const isSmallScreen = useMediaQuery('(max-width: 600px)');
 const [msgs, setMsgs] = useState([]);
+const [value, setValue] = useState(0);
 
 let windows = [
   {id: 0, position: {x: 0, y: 0}, size: {x: 200, y: 100}, child: <WindowOne />},
@@ -104,6 +103,7 @@ useEffect(() => {
           // <MoveableWindow id={windows[0].id} size={windows[0].size} position={windows[0].position}>  
           //   <WindowOne />
           // </MoveableWindow>
+          <>
           <Paper>
           <Typography>Main Box Content Goes Here</Typography>
           
@@ -113,7 +113,22 @@ useEffect(() => {
             
           
           </Paper>
+          { isSmallScreen && 
+            <Paper sx={{ position: 'fixed', bottom: 0, left:0, right: 0 }} elevation={3}>
+            <BottomNavigation showLabels value={value} onChange={(event, newValue) => {
+              setValue(newValue);
+            }}>
+              <BottomNavigationAction label="Map" />
+              <BottomNavigationAction label="Stats" />
+              <BottomNavigationAction label="Home" />
+
+            
+            </BottomNavigation>
+            </Paper>
           }
+          </>
+          }
+
           </Grid>
         
         
