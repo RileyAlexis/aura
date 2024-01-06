@@ -16,6 +16,7 @@ import AuraTitle from "./components/Basics/AuraTitle";
 import Topbar from "./components/Basics/Topbar";
 import MoveableWindow from "./components/Basics/MoveableWindow";
 import Sidebar  from './components/Basics/Sidebar';
+import Main from "./components/Main/Main";
 
 //Redux Actions
 import { setUserData } from "./modules/reducers/userStats";
@@ -104,15 +105,7 @@ useEffect(() => {
           //   <WindowOne />
           // </MoveableWindow>
           <>
-          <Paper>
-          <Typography>Main Box Content Goes Here</Typography>
-          
-          <Typography variant="body">Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content v Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box content Main Box contentMain Box content Main Box content Main Box content Main Box content Main Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box contentMain Box content 
-            </Typography><br /><br />
-            <Typography variant="h5">{msgs.user}: {msgs.message}</Typography>
-            
-          
-          </Paper>
+          <Main />
           { isSmallScreen && 
             <Paper sx={{ position: 'fixed', bottom: 0, left:0, right: 0 }} elevation={3}>
             <BottomNavigation showLabels value={value} onChange={(event, newValue) => {
