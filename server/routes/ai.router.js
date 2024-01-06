@@ -13,8 +13,7 @@ const gemini = new GoogleGenerativeAI(process.env.GEMINI);
 
 router.get('/gemini', async (req, res) => {
     const model = gemini.getGenerativeModel({ model: "gemini-pro"});
-    const prompt = req.query.prompt;
-    console.log(prompt);
+    const prompt = req.query.prompt;    
     try {
         const result = await model.generateContent(prompt);
         const response = await result.response;
