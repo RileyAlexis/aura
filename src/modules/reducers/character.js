@@ -12,7 +12,7 @@ export const characterSlice = createSlice({
             return action.payload;
                     },  
         setLocation: (state, action) => {
-            console.log('Reducer**************', action.payload);
+            // console.log('Reducer**************', action.payload);
             state.location = action.payload;
         },
     }

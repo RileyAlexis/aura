@@ -22,7 +22,7 @@ function Sidebar() {
         {gameLocations.city?.map((item) => {
           return (
             <Grid item key={item.id}>
-              <Button variant="outline" key={item.id} onClick={() => handleLocation(item.id)}>
+              <Button variant="outline" disableElevation size="small" key={item.id} onClick={() => handleLocation(item.id)}>
                 {item.title} 
               </Button>
             </Grid>

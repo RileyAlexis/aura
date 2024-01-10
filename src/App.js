@@ -7,7 +7,9 @@ import axios from "axios";
 import { ThemeProvider } from "@emotion/react";
 import { Grid, Typography, Box, Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
 import { auraDefault } from "./modules/auraDefault";
+
 
 //Components
 import AuraTitle from "./components/Basics/AuraTitle";
@@ -15,6 +17,7 @@ import Topbar from "./components/Basics/Topbar";
 import Sidebar from "./components/Basics/Sidebar";
 import Main from "./components/Main/Main";
 import Login from "./components/Login/Login";
+import BottomMenu from "./components/Basics/BottomMenu";
 
 //Redux Actions
 import { setUserData } from "./modules/reducers/userStats";
@@ -33,7 +36,7 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState(auraDefault);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [msgs, setMsgs] = useState([]);
-  const [value, setValue] = useState(0);
+  
 
 
   useEffect(() => {
@@ -61,11 +64,10 @@ function App() {
   
 
       <Box sx={{ flexGrow: 1, margin: 0 }}>
+        
         {/* Top title and nav bar */}
-       
         <Grid container rowSpacing={2} columnSpacing={2} gap={2} maxWidth={"lg"} justifyContent="space-between" alignItems="stretch"
-          sx={{ marginBottom: 2 }}
-          >
+          sx={{ marginBottom: 2 }}>
           <Grid item component={AuraTitle} xs={4} />
           <Grid item component={Topbar} xs={8} />
         </Grid>
@@ -91,22 +93,7 @@ function App() {
             }
 
             {isSmallScreen && (
-              <Paper
-                sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-                elevation={3}
-              >
-                <BottomNavigation
-                  showLabels
-                  value={value}
-                  onChange={(event, newValue) => {
-                    setValue(newValue);
-                  }}
-                >
-                  <BottomNavigationAction label="Map" />
-                  <BottomNavigationAction label="Stats" />
-                  <BottomNavigationAction label="Home" />
-                </BottomNavigation>
-              </Paper>
+              <BottomMenu />
             )}
           </Grid>
       </Box>
