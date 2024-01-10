@@ -23,6 +23,7 @@ const passport = require('./strategies/user.strategy');
 //Routes
 const userRouter = require('./routes/user.router');
 const aiRouter = require('./routes/ai.router');
+const naughtyRouter = require('./routes/naughty.router');
 const { rejectUnauthenticated } = require('./modules/authentication-middleware');
 
 /** ---------- MIDDLEWARE ---------- **/
@@ -41,6 +42,7 @@ app.use(passport.session());
 
 app.use('/user', userRouter);
 app.use('/ai', aiRouter)
+app.use('/naughty', naughtyRouter);
 app.use(express.static('build'));
 
 /* --------------- Websockets connections ----------------- */

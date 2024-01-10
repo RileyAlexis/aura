@@ -18,6 +18,7 @@ import Sidebar from "./components/Basics/Sidebar";
 import Main from "./components/Main/Main";
 import Login from "./components/Login/Login";
 import BottomMenu from "./components/Basics/BottomMenu";
+import CharacterCreate from "./components/Character/CharacterCreate";
 
 //Redux Actions
 import { setUserData } from "./modules/reducers/userStats";
@@ -28,7 +29,6 @@ import { openSockets } from "./modules/auraSockets";
 import "./App.css";
 
 function App() {
-
 
   const user = useSelector((store) => store.user);
   const character = useSelector(store => store.character);
@@ -88,7 +88,12 @@ function App() {
 
             {user.userId &&
             <Grid item xs={12} sm={9} md={9} lg={9}>
+            {character.name === '' && 
+              <CharacterCreate />
+            }
+            {character.name !== '' && user.userId &&
             <Main />
+            }
               </Grid>
             }
 

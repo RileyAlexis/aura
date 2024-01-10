@@ -33,10 +33,10 @@ export const auraDefault = createTheme({
         paper: 'rgba(28, 28, 28, 0.65)',
       },
       error: {
-        main: '#0088ad',
+        main: '#99001a',
       },
       warning: {
-        main: '#00ce94',
+        main: '#99001a',
       },
       info: {
         main: '#ffab00',

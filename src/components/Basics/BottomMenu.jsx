@@ -13,7 +13,7 @@ function BottomMenu() {
     const character = useSelector(store => store.character);
     const dispatch = useDispatch();
     const [menuAnchor, setMenuAnchor] = useState(null);
-    const [value, setValue] = useState(0);
+
 
     const handleMenuClick = (event) => {
         setMenuAnchor(event.currentTarget);
@@ -37,8 +37,8 @@ return (
             <BottomNavigation
                 showLabels>
                   <BottomNavigationAction icon={<MenuIcon />} onClick={handleMenuClick} />
-                  <BottomNavigationAction label="Stats" />
-                  <BottomNavigationAction label="Home" />
+                  {/* <BottomNavigationAction label="Stats" />
+                  <BottomNavigationAction label="Home" /> */}
                 </BottomNavigation>
                 <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={handleMenuClose}
                         anchorOrigin={{
