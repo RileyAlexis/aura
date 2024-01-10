@@ -6,6 +6,7 @@ import axios from "axios";
 import { Typography, TextField, Button, Paper, Box } from "@mui/material";
 
 import { setUserData } from "../../modules/reducers/userStats";
+import { setLocation } from "../../modules/reducers/character";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -26,6 +27,7 @@ function Login() {
       .then((response) => {
         console.log("Login Successful", response.data);
         dispatch(setUserData(response.data));
+        dispatch(setLocation('0'));
       })
       .catch((error) => {
         console.log("Error Logging in", error);

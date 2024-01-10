@@ -10,13 +10,11 @@ import { useMediaQuery } from "@mui/material";
 import { auraDefault } from "./modules/auraDefault";
 
 //Components
-import Login from "./components/Login/Login";
-import AccountMenu from "./components/AccountMenu/AccountMenu";
 import AuraTitle from "./components/Basics/AuraTitle";
 import Topbar from "./components/Basics/Topbar";
-import MoveableWindow from "./components/Basics/MoveableWindow";
 import Sidebar from "./components/Basics/Sidebar";
 import Main from "./components/Main/Main";
+import Login from "./components/Login/Login";
 
 //Redux Actions
 import { setUserData } from "./modules/reducers/userStats";
@@ -27,35 +25,16 @@ import { openSockets } from "./modules/auraSockets";
 import "./App.css";
 
 function App() {
-  const WindowOne = () => {
-    return <Typography>Window One</Typography>;
-  };
 
-  const WindowTwo = () => {
-    return <Typography>Window Two</Typography>;
-  };
 
   const user = useSelector((store) => store.user);
+  const character = useSelector(store => store.character);
   const dispatch = useDispatch();
   const [currentTheme, setCurrentTheme] = useState(auraDefault);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [msgs, setMsgs] = useState([]);
   const [value, setValue] = useState(0);
 
-  let windows = [
-    {
-      id: 0,
-      position: { x: 0, y: 0 },
-      size: { x: 200, y: 100 },
-      child: <WindowOne />,
-    },
-    {
-      id: 1,
-      position: { x: 0, y: 0 },
-      size: { x: 200, y: 100 },
-      child: <WindowTwo />,
-    },
-  ];
 
   useEffect(() => {
     document.body.style.backgroundColor =
@@ -63,6 +42,7 @@ function App() {
 
     const checkToken = async () => {
       try {
+        //logs user in if a valid token exists
         const response = await axios.get("/user/check-token");
         dispatch(setUserData(response.data));
       } catch (error) {
@@ -72,8 +52,9 @@ function App() {
     };
 
     checkToken();
-    openSockets(user, setMsgs);
+    openSockets(user, setMsgs); //initializes websockets connection
   }, []);
+
 
   return (
     <ThemeProvider theme={auraDefault}>
@@ -94,11 +75,20 @@ function App() {
         {/* Main content grid */}
         <Grid container rowSpacing={2} columnSpacing={2} justifyContent={"flex-start"} alignItems={"baseline"}>
           
-          {!isSmallScreen && (
-            <Grid item component={Sidebar} sm={6} md={4} lg={2} />
+          {!isSmallScreen && user.userId && (
+            <Grid item component={Sidebar} sm={6} md={3} lg={3} />
           )}
+            {!user.userId && character.location === '' &&
           <Grid item xs={12} sm={6} md={8} lg={10}>
+            <Login />
+            </Grid>
+            }
+
+            {user.userId &&
+            <Grid item xs={12} sm={9} md={9} lg={9}>
             <Main />
+              </Grid>
+            }
 
             {isSmallScreen && (
               <Paper
@@ -119,7 +109,6 @@ function App() {
               </Paper>
             )}
           </Grid>
-        </Grid>
       </Box>
 
     </ThemeProvider>

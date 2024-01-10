@@ -24,6 +24,7 @@ function AccountMenu() {
       .post("/user/logout")
       .then((response) => {
         dispatch(removeUser());
+        dispatch({ type: 'RESET_ENTIRE_STORE'});
       })
       .catch((error) => {
         console.error("Error logging out", error);
