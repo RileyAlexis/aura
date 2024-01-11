@@ -86,7 +86,7 @@ export const auraDefault = createTheme({
         {
           props: { variant: 'border'},
           style: {
-            border: '2px solid gray',
+            border: '2px solid white',
           }
         }
       ],

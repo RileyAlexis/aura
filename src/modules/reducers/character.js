@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     name: '',
-    location: '',
 };
 
 export const characterSlice = createSlice({

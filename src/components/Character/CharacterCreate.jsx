@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 import { Grid, Paper, Typography, Button, TextField, FormControl, InputLabel, MenuItem, Select, List, ListItem, ListItemText } from "@mui/material";
+import { setAllCharacterData } from "../../modules/reducers/character";
 
 function CharacterCreate() {
 
@@ -10,6 +11,7 @@ function CharacterCreate() {
     const backgrounds = useSelector(store => store.backgrounds);
     const skillsets = useSelector(store => store.skillsets);
     
+    const dispatch = useDispatch();
 
   const [name, setName] = useState('');
   const [selectedBackground, setSelectedBackground] = useState({});
@@ -44,6 +46,26 @@ function CharacterCreate() {
     console.log(event.target.value);
     setBackgroundLabel(event.target.value);
     setSelectedBackground(backgrounds[event.target.value]);
+  }
+
+  const setCharacter = () => {
+    console.log(selectedBackground.id, checked);
+    if (!checked && name !== '') { checkName(); }
+    if (name === '')  { return setError("Select a Character Name"); }
+    if (selectedBackground.id === undefined) { return setError("Select a background"); }
+
+    if (checked) {
+        setError('');
+        const charObj = {
+            name: name,
+            background: selectedBackground.id,
+            stats: selectedBackground.stats,
+            skills: selectedBackground.skills,
+            gameLocation: 0
+        }
+        dispatch(setAllCharacterData(charObj));
+    }
+
   }
 
   return (
@@ -83,7 +105,7 @@ function CharacterCreate() {
             <Typography variant="body">{selectedBackground.description}</Typography>
                 <br />
                     {selectedBackground.stats &&
-                        <Grid item container xs={12} md={8} alignItems={"baseline"} justifyContent={"flex-start"}>
+                        <Grid item container xs={12} md={12} alignItems={"baseline"} justifyContent={"space-between"} variant="border">
                             <List dense disablePadding>
                                 <Typography variant="h6">Stats:</Typography>
                             {Object.entries(selectedBackground.stats).map(([key, value]) => (
@@ -115,8 +137,10 @@ function CharacterCreate() {
         </Grid>
         }
         {/* End Background Section */}
-
-        {/* <Button size="large">Done</Button> */}
+        <Grid container item xs={12} justifyContent={"center"}>
+            <Button size="large" onClick={setCharacter}>Done</Button>
+        </Grid>
+        
         </Grid>
     </Paper>
     
