@@ -76,8 +76,8 @@ export const auraDefault = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          padding: '5px',
-          margin: '5px',
+          padding: '0px',
+          margin: '0px',
         }
       }
     },

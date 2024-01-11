@@ -105,7 +105,7 @@ function CharacterCreate() {
             <Typography variant="body">{selectedBackground.description}</Typography>
                 <br />
                     {selectedBackground.stats &&
-                        <Grid item container xs={12} md={12} alignItems={"baseline"} justifyContent={"space-between"} variant="border">
+                        <Grid item container xs={12} md={12} alignItems={"baseline"} justifyContent={"space-between"}>
                             <List dense disablePadding>
                                 <Typography variant="h6">Stats:</Typography>
                             {Object.entries(selectedBackground.stats).map(([key, value]) => (

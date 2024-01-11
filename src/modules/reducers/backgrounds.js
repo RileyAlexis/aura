@@ -79,7 +79,7 @@ const initialState = [
     {
         id: 3, 
         title: 'Undergrounder',
-        description: "Born and raised in the labyrinthine tunnels and hidden chambers beneath the city, you've never known the surface world. The claustrophobic confines of your subterranean home have shaped your perspective, granting you a unique understanding of the city's hidden currents and unseen dangers. With a natural affinity for the darkness and a deep-seated aversion to the oppressive brightness above, you navigate the treacherous underworld, determined to carve out your own existence in a city that often forgets those who live in the shadows",
+        description: "Born and raised in the labyrinthine tunnels and hidden chambers beneath the city, you've never known the surface world. With a natural affinity for the darkness and a deep-seated aversion to the oppressive brightness above, you navigate the treacherous underworld, determined to carve out your own existence in a city that often forgets those who live in the shadows",
         stats: {
             Strength: 3,
             Agility: 2,

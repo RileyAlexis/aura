@@ -24,13 +24,17 @@ const passport = require('./strategies/user.strategy');
 const userRouter = require('./routes/user.router');
 const aiRouter = require('./routes/ai.router');
 const naughtyRouter = require('./routes/naughty.router');
-const { rejectUnauthenticated } = require('./modules/authentication-middleware');
+const savesRouter = require('./routes/saves.router');
+
 
 /** ---------- MIDDLEWARE ---------- **/
+const { rejectUnauthenticated } = require('./modules/authentication-middleware');
+
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//Passport Middleware
 app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
@@ -43,6 +47,8 @@ app.use(passport.session());
 app.use('/user', userRouter);
 app.use('/ai', aiRouter)
 app.use('/naughty', naughtyRouter);
+app.use('/saves', savesRouter);
+
 app.use(express.static('build'));
 
 /* --------------- Websockets connections ----------------- */
