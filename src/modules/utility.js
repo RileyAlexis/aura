@@ -1,6 +1,8 @@
 import { storeInstance as store } from './store'
 import axios from 'axios';
 
+import { setAllCharacterData } from './reducers/character';
+
 export function saveCharacter() {
     const state = store.getState();
     const character = state.character;
@@ -30,3 +32,19 @@ export function saveCharacter() {
             console.error(error);
         })
 } //End Save Character
+
+export function loadCharacter() {
+    const state = store.getState();
+    const user = state.user;
+
+    if (user.userId) {
+        axios.get('/loading/character')
+            .then((response) => {
+                console.log(response);
+                store.dispatch(setAllCharacterData(response.data));
+            }).catch((error) => {
+                console.log(error);
+            });
+    }
+
+}

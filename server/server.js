@@ -25,6 +25,7 @@ const userRouter = require('./routes/user.router');
 const aiRouter = require('./routes/ai.router');
 const naughtyRouter = require('./routes/naughty.router');
 const savesRouter = require('./routes/saves.router');
+const loadingRouter = require('./routes/loadingRouter');
 
 
 /** ---------- MIDDLEWARE ---------- **/
@@ -48,6 +49,7 @@ app.use('/user', userRouter);
 app.use('/ai', aiRouter)
 app.use('/naughty', naughtyRouter);
 app.use('/saves', savesRouter);
+app.use('/loading', loadingRouter)
 
 app.use(express.static('build'));
 

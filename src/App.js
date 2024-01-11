@@ -26,6 +26,9 @@ import { setUserData } from "./modules/reducers/userStats";
 //Sockets
 import { openSockets } from "./modules/auraSockets";
 
+//Utility Functions
+import { loadCharacter } from "./modules/utility";
+
 import "./App.css";
 
 function App() {
@@ -48,6 +51,7 @@ function App() {
         //logs user in if a valid token exists
         const response = await axios.get("/user/check-token");
         dispatch(setUserData(response.data));
+        loadCharacter();
       } catch (error) {
         console.log("Error authenticating session", error);
         setUserData(null);
