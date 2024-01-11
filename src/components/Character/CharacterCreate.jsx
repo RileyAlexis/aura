@@ -2,16 +2,19 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
-import { Grid, Paper, Typography, Button, TextField, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Grid, Paper, Typography, Button, TextField, FormControl, InputLabel, MenuItem, Select, List, ListItem, ListItemText } from "@mui/material";
 
 function CharacterCreate() {
 
     const character = useSelector(store => store.character);
     const backgrounds = useSelector(store => store.backgrounds);
+    const skillsets = useSelector(store => store.skillsets);
+    
 
   const [name, setName] = useState('');
   const [selectedBackground, setSelectedBackground] = useState({});
   const [backgroundLabel, setBackgroundLabel] = useState('');
+  
   const [error, setError] = useState('');
   const [checked, setChecked] = useState(false);
 
@@ -48,50 +51,76 @@ function CharacterCreate() {
       <center>
         <Typography variant="h6">Create New Character</Typography>
       </center>
-      <Grid
-        container
-        rowSpacing={2}
-        columnSpacing={2}
-        justifyContent={"flex-start"}
-      >
+      <Grid container rowSpacing={2} columnSpacing={2} justifyContent={"flex-start"}>
 
         {/* Name Section */}
         <Grid item xs={12}>
-          <TextField
-            variant="filled"
-            label="Character Name"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          /> 
-          <Button variant="outlined" onClick={checkName}>Check</Button>
-          {error !== null && error !== 'OK' &&
-          
-            <Typography variant="body" color='error'>{error}</Typography>
-          }
-          {error !== null && error === 'OK' &&
-            <Typography variant="body">{error}</Typography>
-          }
+          <TextField variant="filled" label="Character Name" required value={name} onChange={(e) => setName(e.target.value)}/> 
+            <Button variant="outlined" onClick={checkName}>Check</Button>
+                {error !== null && error !== 'OK' &&
+                    <Typography variant="body" color='error'>{error}</Typography>
+                }
+                {error !== null && error === 'OK' &&
+                    <Typography variant="body">{error}</Typography>
+                }
         </Grid>
-
+        {/* End Name Section */}
+        
         {/* Background Section */}
         <Grid item xs={12} md={4}>
             <FormControl sx={{ width: 200 }}>
                 <InputLabel id="background-label">Background</InputLabel>
-                <Select labelId="background-label" id="background" value={backgroundLabel} label="Background" onChange={handleBackground}>
-                    {backgrounds?.map((background) => (
-                        <MenuItem key={background.id} value={background.id}>{background.title}</MenuItem>
-                    ))};
-                </Select>
+                    <Select labelId="background-label" id="background" value={backgroundLabel} label="Background" onChange={handleBackground}>
+                        {backgrounds?.map((background) => (
+                            <MenuItem key={background.id} value={background.id}>{background.title}</MenuItem>
+                            ))};
+                    </Select>
             </FormControl>
         </Grid>
+        
         {selectedBackground !== null &&
         <Grid item xs={12} md={8}>
             <Typography variant="body">{selectedBackground.description}</Typography>
+                <br />
+                    {selectedBackground.stats &&
+                        <Grid item container xs={12} md={8} alignItems={"baseline"} justifyContent={"flex-start"}>
+                            <List dense disablePadding>
+                                <Typography variant="h6">Stats:</Typography>
+                            {Object.entries(selectedBackground.stats).map(([key, value]) => (
+                                <ListItem key={key} disableGutters>
+                                    <ListItemText>
+                                        <Typography variant="body">{key} : {value}</Typography>
+                                    </ListItemText>
+                                </ListItem>                                 
+                            ))}
+                            </List>
+                    
+                            <List dense disablePadding>
+                        <       Typography variant="h6">Skills:</Typography>
+                                    {Object.entries(selectedBackground.skills).map(([key, value]) => (
+                                        value.length > 0 && 
+                                        <ListItem key={key}>
+                                            <ListItemText>
+                                                <Typography variant="body">
+                                                    {key} : {value.map((item) => (
+                                                    skillsets[key][item] + ' | '
+                                                    ))}
+                                                </Typography>
+                                            </ListItemText>
+                                        </ListItem>        
+                                    ))}
+                            </List>
+                        </Grid>
+                    }
         </Grid>
         }
-      </Grid>
+        {/* End Background Section */}
+
+        {/* <Button size="large">Done</Button> */}
+        </Grid>
     </Paper>
+    
+
   );
 }
 

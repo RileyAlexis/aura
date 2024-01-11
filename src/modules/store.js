@@ -7,6 +7,7 @@ import userStatsSlice from './reducers/userStats';
 import gameLocationsSlice from './reducers/gameLocations';
 import characterSlice from './reducers/character';
 import backgroundSlice from './reducers/backgrounds';
+import skillsetSlice from './reducers/skillsets';
 
 // const sagaMiddleware = createSagaMiddleware();
 
@@ -24,6 +25,7 @@ const allReducers = combineReducers({
     gameLocations: gameLocationsSlice,
     character: characterSlice,
     backgrounds: backgroundSlice,
+    skillsets: skillsetSlice,
     });
 
 const storeInstance = configureStore({
