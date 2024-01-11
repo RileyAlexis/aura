@@ -90,6 +90,7 @@ function App() {
             <Grid item xs={12} sm={9} md={9} lg={9}>
             {character.name === '' && 
               <CharacterCreate />
+              
             }
             {character.name !== '' && user.userId &&
             <Main />

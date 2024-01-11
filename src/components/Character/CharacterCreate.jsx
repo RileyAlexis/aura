@@ -2,11 +2,17 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
-import { Grid, Paper, Typography, Button, TextField } from "@mui/material";
+import { Grid, Paper, Typography, Button, TextField, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 function CharacterCreate() {
-  const [name, setName] = useState();
-  const [error, setError] = useState(null);
+
+    const character = useSelector(store => store.character);
+    const backgrounds = useSelector(store => store.backgrounds);
+
+  const [name, setName] = useState('');
+  const [selectedBackground, setSelectedBackground] = useState({});
+  const [backgroundLabel, setBackgroundLabel] = useState('');
+  const [error, setError] = useState('');
   const [checked, setChecked] = useState(false);
 
   const checkName = () => {
@@ -29,9 +35,13 @@ function CharacterCreate() {
     } else {
         return;
     }
-
-
   };
+
+  const handleBackground = (event) => {
+    console.log(event.target.value);
+    setBackgroundLabel(event.target.value);
+    setSelectedBackground(backgrounds[event.target.value]);
+  }
 
   return (
     <Paper elevation={3}>
@@ -44,7 +54,9 @@ function CharacterCreate() {
         columnSpacing={2}
         justifyContent={"flex-start"}
       >
-        <Grid item xs={12} md={12} >
+
+        {/* Name Section */}
+        <Grid item xs={12}>
           <TextField
             variant="filled"
             label="Character Name"
@@ -61,6 +73,23 @@ function CharacterCreate() {
             <Typography variant="body">{error}</Typography>
           }
         </Grid>
+
+        {/* Background Section */}
+        <Grid item xs={12} md={4}>
+            <FormControl sx={{ width: 200 }}>
+                <InputLabel id="background-label">Background</InputLabel>
+                <Select labelId="background-label" id="background" value={backgroundLabel} label="Background" onChange={handleBackground}>
+                    {backgrounds?.map((background) => (
+                        <MenuItem key={background.id} value={background.id}>{background.title}</MenuItem>
+                    ))};
+                </Select>
+            </FormControl>
+        </Grid>
+        {selectedBackground !== null &&
+        <Grid item xs={12} md={8}>
+            <Typography variant="body">{selectedBackground.description}</Typography>
+        </Grid>
+        }
       </Grid>
     </Paper>
   );

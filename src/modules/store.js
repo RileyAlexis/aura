@@ -6,6 +6,7 @@ import logger from 'redux-logger';
 import userStatsSlice from './reducers/userStats';
 import gameLocationsSlice from './reducers/gameLocations';
 import characterSlice from './reducers/character';
+import backgroundSlice from './reducers/backgrounds';
 
 // const sagaMiddleware = createSagaMiddleware();
 
@@ -22,6 +23,7 @@ const allReducers = combineReducers({
     user: userStatsSlice,
     gameLocations: gameLocationsSlice,
     character: characterSlice,
+    backgrounds: backgroundSlice,
     });
 
 const storeInstance = configureStore({
