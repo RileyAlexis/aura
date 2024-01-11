@@ -39,4 +39,4 @@ const storeInstance = configureStore({
 
 //   sagaMiddleware.run(rootSaga);
 
-export default storeInstance;
+export { storeInstance };

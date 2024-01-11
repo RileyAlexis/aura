@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const pool = require('../modules/pool');
 
-router.post('/', (req, res) => {
+
+router.post('/character', (req, res) => {
+    console.log('Saves character Route Called')
     if (req.isAuthenticated()) {
         let dataArr = [
             req.body.userId,
@@ -16,11 +19,13 @@ router.post('/', (req, res) => {
             req.body.charisma,
             JSON.stringify(req.body.skills)
         ];
+        console.log(req.body);
 
-        let queryString = `SELECT 1 FROM "character_stats" WHERE userId = $1`;
+        let queryString = `SELECT 1 FROM "character_stats" WHERE "userId" = $1`;
 
             pool.query(queryString, [req.body.userId])
                 .then((result) => {
+                    console.log(result.rows.length);
                     if (result.rows.length > 0) {
                         queryString = `UPDATE "character_stats" 
                                         SET "name" = $2,
@@ -33,9 +38,9 @@ router.post('/', (req, res) => {
                                             "rejection" = $9,
                                             "charisma" = $10,
                                             "skills" = $11
-                                            WHERE userId = $1;`;
+                                            WHERE "userId" = $1;`;
                     } else {
-                        queryString = `INSERT INTO "character_stats'
+                        queryString = `INSERT INTO "character_stats"
                                         ("userId", "name", "strength", "agility", "creativity", "energy", "speed", "education", "rejection", "charisma", "skills")
                                         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`;
                     } //End user ID if statement

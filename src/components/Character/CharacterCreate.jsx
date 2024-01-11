@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { Grid, Paper, Typography, Button, TextField, FormControl, InputLabel, MenuItem, Select, List, ListItem, ListItemText } from "@mui/material";
 import { setAllCharacterData } from "../../modules/reducers/character";
+import { saveCharacter } from "../../modules/utility";
 
 function CharacterCreate() {
 
@@ -48,7 +49,7 @@ function CharacterCreate() {
     setSelectedBackground(backgrounds[event.target.value]);
   }
 
-  const setCharacter = () => {
+  const setCharacter = async () => {
     console.log(selectedBackground.id, checked);
     if (!checked && name !== '') { checkName(); }
     if (name === '')  { return setError("Select a Character Name"); }
@@ -63,7 +64,8 @@ function CharacterCreate() {
             skills: selectedBackground.skills,
             gameLocation: 0
         }
-        dispatch(setAllCharacterData(charObj));
+        await dispatch(setAllCharacterData(charObj));
+        saveCharacter();
     }
 
   }
