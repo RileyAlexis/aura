@@ -84,7 +84,7 @@ function App() {
           {!isSmallScreen && user.userId && (
             <Grid item component={Sidebar} sm={6} md={3} lg={3} />
           )}
-            {!user.userId && character.location === '' &&
+            {!user.userId &&
           <Grid item xs={12} sm={6} md={8} lg={10}>
             <Login />
             </Grid>
@@ -102,7 +102,7 @@ function App() {
               </Grid>
             }
 
-            {isSmallScreen && (
+            {isSmallScreen && user.userId && (
               <BottomMenu />
             )}
           </Grid>

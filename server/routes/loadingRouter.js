@@ -24,7 +24,6 @@ router.get('/character', (req,res) => {
                         },
                     skills: response.rows[0].skills
                 }
-                console.log("Character loaded", data);
                 res.json(data);
             }).catch((error) => {
                 console.error("Error loading character stats", error);

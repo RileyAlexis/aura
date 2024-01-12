@@ -4,8 +4,8 @@ const pool = require('../modules/pool');
 
 
 router.post('/character', (req, res) => {
-    console.log('Saves character Route Called')
     if (req.isAuthenticated()) {
+        console.log("Background", req.body.background);
         let dataArr = [
             req.body.userId,
             req.body.name,
@@ -17,7 +17,8 @@ router.post('/character', (req, res) => {
             req.body.education,
             req.body.rejection,
             req.body.charisma,
-            JSON.stringify(req.body.skills)
+            JSON.stringify(req.body.skills),
+            req.body.background
         ];
         console.log(req.body);
 
@@ -37,12 +38,13 @@ router.post('/character', (req, res) => {
                                             "education" = $8,
                                             "rejection" = $9,
                                             "charisma" = $10,
-                                            "skills" = $11
+                                            "skills" = $11,
+                                            "background" = $12
                                             WHERE "userId" = $1;`;
                     } else {
                         queryString = `INSERT INTO "character_stats"
-                                        ("userId", "name", "strength", "agility", "creativity", "energy", "speed", "education", "rejection", "charisma", "skills")
-                                        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`;
+                                        ("userId", "name", "strength", "agility", "creativity", "energy", "speed", "education", "rejection", "charisma", "skills", "background")
+                                        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);`;
                     } //End user ID if statement
 
                     pool.query(queryString, dataArr)

@@ -22,6 +22,7 @@ export function saveCharacter() {
         rejection: stats.Rejection,
         charisma: stats.Charisma,
         skills: character.skills,
+        background: character.background
     }
     console.log(dataObj);
 
@@ -40,7 +41,6 @@ export function loadCharacter() {
     if (user.userId) {
         axios.get('/loading/character')
             .then((response) => {
-                console.log(response);
                 store.dispatch(setAllCharacterData(response.data));
             }).catch((error) => {
                 console.log(error);
