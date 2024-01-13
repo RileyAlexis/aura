@@ -27,15 +27,18 @@ function CharacterCreate() {
     const dataObj = {
         text: name
     }
-    if (name !== undefined) {
+    if (name === '') { return setError('Enter a character name');}
+    if (name !== undefined || name !== '') {
         axios.post('/naughty/check', dataObj)
         .then((response) => {
             console.log(response.data);
             if (response.data.message) { 
                 setError(response.data.message); 
+                setChecked(false);
             } else {
                 setError(response.data.ok);
                 setChecked(true);
+                
             }
         });
     } else {
@@ -50,12 +53,11 @@ function CharacterCreate() {
   }
 
   const setCharacter = async () => {
-    console.log(selectedBackground.id, checked);
-    if (!checked && name !== '') { checkName(); }
-    if (name === '')  { return setError("Select a Character Name"); }
-    if (selectedBackground.id === undefined) { return setError("Select a background"); }
+    // console.log(selectedBackground.id, checked);
+    if (selectedBackground.id === undefined) { return (setError("Select a background")) }
+    if (name === '' || name === undefined) { return (setError("Enter a character name")) }
 
-    if (checked) {
+       if (checked) {
         setError('');
         const charObj = {
             name: name,
@@ -63,12 +65,14 @@ function CharacterCreate() {
             stats: selectedBackground.stats,
             skills: selectedBackground.skills,
             gameLocation: 0
-        }
+            }
+
         await dispatch(setAllCharacterData(charObj));
         saveCharacter();
+        } else if (!checked) {
+            checkName();
+        }
     }
-
-  }
 
   return (
     <Paper elevation={3}>
@@ -139,8 +143,8 @@ function CharacterCreate() {
         </Grid>
         }
         {/* End Background Section */}
-        <Grid container item xs={12} justifyContent={"center"}>
-            <Button size="large" onClick={setCharacter}>Done</Button>
+        <Grid container item xs={12} justifyContent={"center"} sx={{ paddingBottom: '5px'}}>
+            <Button size="large" onClick={setCharacter}>Create</Button>
         </Grid>
         
         </Grid>
