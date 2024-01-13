@@ -67,8 +67,8 @@ export const auraDefault = createTheme({
       styleOverrides: {
         root:{
           boxShadow: '0 1px 1px 1px rgba(250, 160, 60, .25)',
-          marginBottom: '2px',
-          padding: '8px',
+          margin: '0px',
+          paddingLeft: '8px',
           background: 'rgba(28, 28, 28, 0.85)',
         },
       },
@@ -76,8 +76,8 @@ export const auraDefault = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          padding: '0px',
-          margin: '0px',
+          padding: '0',
+          margin: '0.1em',
         }
       }
     },

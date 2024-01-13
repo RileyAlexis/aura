@@ -32,16 +32,22 @@ useEffect(() => {
 }, [])
 
   return (
-    <Paper elevation={5}>
+    <Paper elevation={2}>
       <Grid
         container
         rowSpacing={2}
         columnSpacing={2}
-        justifyContent={"space-evenly"}
+        justifyContent={"space-between"}
       >
-        <Typography variant="h5">Main Content Window</Typography><br />
-        <Typography variant="body">{character.location}</Typography><br />
+        <Grid item sm={12}>
+        <center><Typography variant="h5">Main Content Window</Typography></center>
+        </Grid>
+        <Grid item sm={12}>
+        <Typography variant="body">{character.location}</Typography>
+        </Grid>
+        <Grid item sm={12}>
         <Typography variant="body">{screen}</Typography>
+        </Grid>
       </Grid>
     </Paper>
   );

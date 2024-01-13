@@ -70,38 +70,41 @@ function App() {
       <Box sx={{ flexGrow: 1, margin: 0 }}>
         
         {/* Top title and nav bar */}
-        <Grid container rowSpacing={2} columnSpacing={2} gap={2} maxWidth={"lg"} justifyContent="space-between" alignItems="stretch"
-          sx={{ marginBottom: 2 }}>
-          <Grid item component={AuraTitle} xs={4} />
-          <Grid item component={Topbar} xs={8} />
+        <Grid container rowSpacing={2} columnSpacing={2} gap={2} justifyContent="space-between" alignItems="baseline"
+          sx={{ marginBottom: 3 }}>
+          <Grid item component={AuraTitle} />
+          <Grid item component={Topbar} />
         </Grid>
 
         {/* End title and nav bar */}
 
         {/* Main content grid */}
-        <Grid container rowSpacing={2} columnSpacing={2} justifyContent={"flex-start"} alignItems={"baseline"}>
+        <Grid container rowSpacing={2} columnSpacing={2} maxWidth={"xl"} justifyContent={"space-between"} alignContent={"baseline"}>
           
           {!isSmallScreen && user.userId && (
-            <Grid item component={Sidebar} sm={6} md={3} lg={3} />
+            <Grid item component={Sidebar} />
           )}
             {!user.userId &&
-          <Grid item xs={12} sm={6} md={8} lg={10}>
+          <Grid item>
             <Login />
             </Grid>
             }
 
             {user.userId &&
-            <Grid item xs={12} sm={9} md={9} lg={9}>
+            <>
             {character.name === '' && 
+            <Grid item>
               <CharacterCreate />
-              
-            }
-            {character.name !== '' && user.userId &&
-            <Main />
-            }
               </Grid>
             }
 
+            {character.name !== '' && user.userId &&
+            <Grid item sm={9} md={10}>
+              <Main />
+            </Grid>
+            }
+            </>
+            }
             {isSmallScreen && user.userId && (
               <BottomMenu />
             )}

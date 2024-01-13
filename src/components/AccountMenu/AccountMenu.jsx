@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { removeUser } from "../../modules/reducers/userStats";
 
-import { Menu, IconButton, MenuItem, Box } from "@mui/material";
+import { Menu, IconButton, MenuItem, Grid } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 
 function AccountMenu() {
@@ -33,7 +33,7 @@ function AccountMenu() {
   };
 
   return (
-    <>
+    <Grid item>
       <IconButton
         aria-controls="account-menu"
         aria-haspopup="true"
@@ -54,7 +54,7 @@ function AccountMenu() {
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <MenuItem onClick={handleLogout}>Log Out</MenuItem>
       </Menu>
-    </>
+    </Grid>
   );
 }
 
