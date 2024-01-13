@@ -12,7 +12,7 @@ router.post('/check', (req, res) => {
         res.json({ ok: "OK"});
     }
     
-    } else res.send(403);
+    } else res.sendStatus(403);
 });
 
 router.post('/blacklist', (req, res) => {

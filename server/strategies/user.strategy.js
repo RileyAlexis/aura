@@ -4,6 +4,7 @@ const encryptLib = require('../modules/encryption');
 const pool = require('../modules/pool');
 
 passport.serializeUser((user, done) => {
+  console.log('Serialization: ', user.id);
   done(null, user.id);
 });
 

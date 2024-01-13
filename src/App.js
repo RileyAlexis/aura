@@ -84,30 +84,26 @@ function App() {
           {!isSmallScreen && user.userId && (
             <Grid item component={Sidebar} />
           )}
-            {!user.userId &&
-            <>
-            <Grid item sm={3} md={2}></Grid>
-          <Grid item sm={9} md={10}>
-            <Login />
-            </Grid>
-            </>
-            }
-
-            {user.userId &&
-            <>
-            {character.name === '' && 
-            <Grid item>
-              <CharacterCreate />
-              </Grid>
-            }
-
-            {character.name !== '' && user.userId &&
+            
+           
             <Grid item sm={9} md={10}>
+            
+            {!user.userId &&
+              <Login />
+            }
+
+            {character.name === '' && user.userId &&
+              <CharacterCreate />
+              }
+
+            {character.name !== '' && user.userId && 
               <Main />
+            }
+            
             </Grid>
-            }
-            </>
-            }
+            
+          
+            
             {isSmallScreen && user.userId && (
               <BottomMenu />
             )}

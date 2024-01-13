@@ -25,7 +25,21 @@ router.post('/register', (req, res, next) => {
     VALUES ($1, $2) RETURNING id`;
   pool.query(queryText, [username, password])
     .then((response) => {
-    res.send({ userId: response.rows[0].id, username: username })
+      
+      const newUser = {
+        id: response.rows[0].id,
+        username: username,
+        password: password
+      };
+      console.log('userId', response.rows[0].id);
+      //Creates the session
+      req.login(newUser, (err) => {
+        if (err) {
+          console.error(err);
+          return err;
+        }});
+
+      res.send({ userId: response.rows[0].id, username: username })
     })
     .catch((err) => {
       console.log('User registration failed: ', err);
