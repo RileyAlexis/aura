@@ -85,9 +85,12 @@ function App() {
             <Grid item component={Sidebar} />
           )}
             {!user.userId &&
-          <Grid item>
+            <>
+            <Grid item sm={3} md={2}></Grid>
+          <Grid item sm={9} md={10}>
             <Login />
             </Grid>
+            </>
             }
 
             {user.userId &&

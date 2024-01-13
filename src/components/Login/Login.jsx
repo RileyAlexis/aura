@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 
 //Material UI
-import { Typography, TextField, Button, Paper, Box } from "@mui/material";
+import { Typography, TextField, Button, Paper, Box, Grid } from "@mui/material";
 
 import { setUserData } from "../../modules/reducers/userStats";
 import { setLocation } from "../../modules/reducers/character";
@@ -68,39 +68,52 @@ function Login() {
   return (
     <Paper square={false}>
       {login && (
-        <Box>
-          <Typography variant="h4">User Login</Typography>
-          <TextField
-            variant="filled"
-            label="Email"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            variant="filled"
-            label="Password"
-            required
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <br /> <br />
-          <br />
-          <Box>
+              <Grid container rowSpacing={2} columnSpacing={2} justifyContent={"space-around"}>
+                <Grid item sm={12}>
+                  <center>
+                  <Typography variant="h4">User Login</Typography>
+                  </center>
+                  </Grid>
+                  <Grid item sm={12}>
+                    <center>
+                  <TextField
+                    variant="filled"
+                    label="Email"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <TextField
+                    variant="filled"
+                    label="Password"
+                    required
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  </center>
+                </Grid>
+          <Grid item sm={12}>
+            <center>
             <Button variant="outlined" onClick={processLogin}>
               Log In
             </Button>
             <Button variant="outlined" onClick={(e) => setLogin(!login)}>
               New User
             </Button>
-          </Box>
+            </center>
+            </Grid>
+          
+            <Grid item sm={12} sx={{ padding: '12px' }}>
           {error && (
-            <Typography m={2} color="warning" variant="body">
+            <center>
+            <Typography m={2} color="error" variant="body">
               {error}
             </Typography>
+            </center>
           )}
-        </Box>
+          </Grid>
+          </Grid>
       )}
 
       {/* Create new user */}
