@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import React from 'react';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import axios from "axios";
 
 //Material UI
@@ -19,6 +21,7 @@ import Main from "./components/Main/Main";
 import Login from "./components/Login/Login";
 import BottomMenu from "./components/Basics/BottomMenu";
 import CharacterCreate from "./components/Character/CharacterCreate";
+import AdminPage from "./components/AdminPage/AdminPage";
 
 //Redux Actions
 import { setUserData } from "./modules/reducers/userStats";
@@ -39,12 +42,15 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState(auraDefault);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [msgs, setMsgs] = useState([]);
-  
+  const currentURL = window.location.href;
+  const regex = /\/([^\/]+)$/;
 
 
   useEffect(() => {
     document.body.style.backgroundColor =
       currentTheme.palette.backgroundColor.default;
+
+    console.log("isSmallScreen", isSmallScreen);
 
     const checkToken = async () => {
       try {
@@ -64,9 +70,13 @@ function App() {
 
 
   return (
+    <Router>
+      <Switch>
+        <Route path="/admin" component={AdminPage} />
+      </Switch>
     <ThemeProvider theme={auraDefault}>
   
-
+      <Route path="/" exact>
       <Box sx={{ flexGrow: 1, margin: 0 }}>
         
         {/* Top title and nav bar */}
@@ -109,8 +119,10 @@ function App() {
             )}
           </Grid>
       </Box>
-
+              </Route>
     </ThemeProvider>
+    
+    </Router>
   );
 }
 
