@@ -9,7 +9,8 @@ router.get('/backgrounds', (req,res) => {
 
         pool.query(queryString)
             .then((response) => {
-                res.send(response.data);
+                console.log('Get Backgrounds', response.rows);
+                res.send(response.rows);
             }).catch((error) => {
                 console.error(error);
             })
@@ -23,4 +24,4 @@ router.get('/backgrounds', (req,res) => {
 
 
 
-module.export = router;
+module.exports = router;

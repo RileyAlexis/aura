@@ -85,6 +85,18 @@ export const auraDefault = createTheme({
       },
     },
     MuiTypography: {
+        variants: [
+          {
+            props: { variant: 'logger'},
+            style: {
+              padding: '2px',
+              fontSize: '1rem',
+              font: 'monospace',
+              color: '#07db00',
+              fontFamily: 'monospace'
+            }
+          }
+        ],
       styleOverrides: {
         root: {
           padding: '0',

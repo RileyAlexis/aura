@@ -4,9 +4,7 @@ import logger from 'redux-logger';
 
 //Slices
 import userStatsSlice from './reducers/userStats';
-import gameLocationsSlice from './reducers/gameLocations';
 import characterSlice from './reducers/character';
-import backgroundSlice from './reducers/backgrounds';
 import skillsetSlice from './reducers/skillsets';
 
 // const sagaMiddleware = createSagaMiddleware();
@@ -22,9 +20,7 @@ const rootReducer = (state, action) => {
 
 const allReducers = combineReducers({
     user: userStatsSlice,
-    gameLocations: gameLocationsSlice,
     character: characterSlice,
-    backgrounds: backgroundSlice,
     skillsets: skillsetSlice,
     });
 

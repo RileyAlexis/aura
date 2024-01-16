@@ -25,8 +25,14 @@ CREATE TABLE "backgrounds" (
     "id" SERIAL PRIMARY KEY,
     "title" VARCHAR(120),
     "description" VARCHAR(1500),
-    "stats" JSONB 
+    "stats" JSONB,
+    "skills" JSONB
     );
 
-
+CREATE TABLE "locations" (
+    "id" SERIAL PRIMARY KEY,
+    "meta" VARCHAR(30),
+    "title" VARCHAR(60),
+    "description" VARCHAR(1500)
+    );
 

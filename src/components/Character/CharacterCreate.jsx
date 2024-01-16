@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -9,17 +9,33 @@ import { saveCharacter } from "../../modules/utility";
 function CharacterCreate() {
 
     const character = useSelector(store => store.character);
-    const backgrounds = useSelector(store => store.backgrounds);
+    // const backgrounds = useSelector(store => store.backgrounds);
     const skillsets = useSelector(store => store.skillsets);
     
     const dispatch = useDispatch();
 
   const [name, setName] = useState('');
+  const [backgrounds, setBackGrounds] = useState();
   const [selectedBackground, setSelectedBackground] = useState({});
   const [backgroundLabel, setBackgroundLabel] = useState('');
   
   const [error, setError] = useState('');
   const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    
+ 
+    axios.get('/gameData/backgrounds')
+        .then((response) => {
+            console.log('Response', response.data);
+            setBackGrounds(response.data);
+        }).catch((error) => {
+        console.error("Error getting background data", error);
+        });
+
+}, []);
+
+
 
   const checkName = () => {
     console.log(name);
@@ -47,9 +63,9 @@ function CharacterCreate() {
   };
 
   const handleBackground = (event) => {
-    console.log(event.target.value);
-    setBackgroundLabel(event.target.value);
+    console.log(backgrounds[event.target.value].title, typeof backgroundLabel);
     setSelectedBackground(backgrounds[event.target.value]);
+    setBackgroundLabel(backgrounds[event.target.value].title);
   }
 
   const setCharacter = async () => {
@@ -98,10 +114,10 @@ function CharacterCreate() {
         <Grid item xs={12} md={4}>
             <FormControl sx={{ width: 200 }}>
                 <InputLabel id="background-label">Background</InputLabel>
-                    <Select labelId="background-label" id="background" value={backgroundLabel} label="Background" onChange={handleBackground}>
-                        {backgrounds?.map((background) => (
-                            <MenuItem key={background.id} value={background.id}>{background.title}</MenuItem>
-                            ))};
+                    <Select labelId="background-label" id="background" value={selectedBackground.title} label="Background" onChange={handleBackground}>
+                        {backgrounds?.map((background, i) => (
+                            <MenuItem key={background.id} value={i}>{background.title}</MenuItem>
+                            ))}
                     </Select>
             </FormControl>
         </Grid>
