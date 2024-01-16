@@ -70,11 +70,11 @@ function App() {
 
 
   return (
+    <ThemeProvider theme={auraDefault}>
     <Router>
       <Switch>
         <Route path="/admin" component={AdminPage} />
       </Switch>
-    <ThemeProvider theme={auraDefault}>
   
       <Route path="/" exact>
       <Box sx={{ flexGrow: 1, margin: 0 }}>
@@ -120,9 +120,9 @@ function App() {
           </Grid>
       </Box>
               </Route>
-    </ThemeProvider>
     
     </Router>
+    </ThemeProvider>
   );
 }
 

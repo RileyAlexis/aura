@@ -51,6 +51,17 @@ export const auraDefault = createTheme({
     },
     components: {
       MuiButton: {
+        variants: [
+          {
+            props: { variant: 'empty'},
+            style: {
+              border: 0,
+              borderRadius: 16,
+              background: 'transparent',
+              textTransform: 'none'
+            }
+          },
+        ],
         styleOverrides: {
           root: {
             background: 'linear-gradient(45deg, rgba(184, 83, 0, 0.15) 30%, rgba(51, 23, 0, 0.3) 90%)',
