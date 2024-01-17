@@ -1,11 +1,16 @@
 import { socket } from '../sockets';
 
+import { storeInstance as store } from './store';
+import { setUserSocketId } from './reducers/userStats';
 
 export const openSockets = () => {
     // const state = store.getState();
     socket.connect();
     socket.on('connect', () => {
-      console.log('Connected to Server', socket.id);  
+      console.log('Connected to Server', socket.id);
+      // const state = store.getState();
+      store.dispatch(setUserSocketId(socket.id));
+
     });
   
     socket.on('disconect', () => {
