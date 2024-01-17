@@ -2,6 +2,20 @@ import { storeInstance as store } from './store'
 import axios from 'axios';
 
 import { setAllCharacterData } from './reducers/character';
+import { setAllLocationData } from './reducers/gameLocations';
+
+export function loadGame() {
+    const state = store.getState();
+    const gameLocations = state.gameLocations;
+
+    axios.get('/gameData/gameLocations')
+        .then((response) => {
+            store.dispatch(setAllLocationData(response.data));
+        }).catch((error) => {
+            console.error("Error getting game location data", error);
+        })
+};
+
 
 export function saveCharacter() {
     const state = store.getState();

@@ -6,8 +6,6 @@ import { setLocation } from "../../modules/reducers/character";
 
 function Sidebar() {
   const dispatch = useDispatch();
-  const user = useSelector((store) => store.user);
-  const character = useSelector(store => store.character);
   const gameLocations = useSelector(store => store.gameLocations);
 
   const handleLocation = (id) => {
@@ -19,15 +17,15 @@ function Sidebar() {
   return (
     <Paper elevation={2}>
 
-        {gameLocations.city?.map((item) => {
-          return (
-            <Grid item key={item.id}>
-              <Button variant="outline" disableElevation size="small" key={item.id} onClick={() => handleLocation(item.id)}>
+        {gameLocations?.map((item, i) => (
+         
+            <Grid item key={i}>
+              <Button variant="outline" disableElevation size="small" onClick={() => handleLocation(i)}>
                 {item.title} 
               </Button>
             </Grid>
-          );
-        })}
+          
+        ))}
     </Paper>
   );
 }

@@ -30,7 +30,7 @@ import { setUserData } from "./modules/reducers/userStats";
 import { openSockets } from "./modules/auraSockets";
 
 //Utility Functions
-import { loadCharacter } from "./modules/utility";
+import { loadCharacter, loadGame } from "./modules/utility";
 
 import "./App.css";
 
@@ -58,6 +58,7 @@ function App() {
         const response = await axios.get("/user/check-token");
         dispatch(setUserData(response.data));
         loadCharacter();
+        loadGame();
       } catch (error) {
         console.log("Error authenticating session", error);
         setUserData(null);

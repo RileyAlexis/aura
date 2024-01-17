@@ -5,6 +5,7 @@ const router = express.Router();
 
 let admin = false;
 
+//Before allowing changes to game data the users admin status is verified by the DB
 const checkRole = (userId) => {
     const queryString = `SELECT * FROM "users" WHERE "id" = $1`;
 
@@ -21,14 +22,13 @@ const checkRole = (userId) => {
         console.log("Error verifying admin uyser", error);
         return false;
         })
-
 }
 
-
-
+//Loads the character backgrounds
 router.post('/loadBackGroundData', async (req,res) => {
     if (req.isAuthenticated()) {   
 
+    //Backgrounds data is stored in JSON on the server for extensibility
     const backgroundData = require('../gamedata/backgrounds.json');
     let insertedRecords = 0;
     let skippedRecords = 0;
@@ -76,10 +76,13 @@ res.json({ message: `${insertedRecords} new backgrounds added. ${skippedRecords}
 
 });
 
+//Loads the game location data
 router.post('/loadLocationData', async (req, res) => {
-    if (req.isAuthenticated() && req.user.role === 'admin') {
+
+    if (req.isAuthenticated()) {
+
+    //Location data is stored in JSON on the server for extensibility
     const locationData = require('../gamedata/locations.json');
-    console.log(req.user);
     let insertedRecords = 0;
     let skippedRecords = 0;
 
