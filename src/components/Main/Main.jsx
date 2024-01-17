@@ -1,16 +1,23 @@
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+//Material UI
 import { Paper, Typography, Grid, Button } from "@mui/material";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 
+//Slice Reducers
 import { setLocation } from '../../modules/reducers/character';
-import { useEffect } from "react";
+import { setAllOnlineUsers } from "../../modules/reducers/onlineUsers";
+import { setAllTickerData } from "../../modules/reducers/newsTicker";
 
-function Main({messages}) {
+//Sockets
+import { socketService } from "../../modules/auraSockets";
+
+
+function Main() {
   const dispatch = useDispatch();
   const character = useSelector(store => store.character);
-const onlineUsers = useSelector(store => store.onlineUsers);
-
+  const onlineUsers = useSelector(store => store.onlineUsers);
+  const newsTicker = useSelector(store => store.newsTicker);
   const [screen, setScreen] = useState(window.innerWidth + ' ' + window.innerHeight);
 
 const handleLocation = (id) => {
@@ -26,9 +33,16 @@ useEffect(() => {
   }
   window.addEventListener('resize', handleResize);
 
+  
+  socketService.onEvent('messages', ((data) => {
+    console.log(data);
+    dispatch(setAllTickerData(data));
+  }))
+
   return () => {
     window.removeEventListener('resize', handleResize);
   }
+
 }, [])
 
   return (
@@ -49,7 +63,7 @@ useEffect(() => {
         <Typography variant="body">{screen}</Typography>
         </Grid>
         <Grid item sm={12}>
-        <Typography variant="body">{JSON.stringify(messages)}</Typography>
+      <Typography variant="body">{JSON.stringify(newsTicker)}</Typography>
         </Grid>
         <Grid item sm={12}>
         <Typography variant="body">{JSON.stringify(onlineUsers)}</Typography>

@@ -42,9 +42,6 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState(auraDefault);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [msgs, setMsgs] = useState([]);
-  const currentURL = window.location.href;
-  const regex = /\/([^\/]+)$/;
-
 
   useEffect(() => {
     document.body.style.backgroundColor =
@@ -59,6 +56,7 @@ function App() {
         dispatch(setUserData(response.data));
         loadCharacter();
         loadGame();
+        openSockets(); //initializes websockets connection
       } catch (error) {
         console.log("Error authenticating session", error);
         setUserData(null);
@@ -66,7 +64,6 @@ function App() {
     };
 
     checkToken();
-    openSockets(user, setMsgs); //initializes websockets connection
   }, []);
 
 

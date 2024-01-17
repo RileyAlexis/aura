@@ -27,7 +27,7 @@ function initializeSockets(server) {
             messages.push({ user: data.user, message: data.message });
         });
     
-        socket.emit("msg:get", { messages });
+        socket.emit("messages", { messages });
         socket.emit("onlineUsers", { onlineUsers });
     });
 

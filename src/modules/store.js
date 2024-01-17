@@ -9,6 +9,7 @@ import skillsetSlice from './reducers/skillsets';
 import gameLocationsSlice from './reducers/gameLocations';
 import adminUser from './reducers/adminUser';
 import onlineUsers from './reducers/onlineUsers';
+import newsTicker from './reducers/newsTicker';
 
 // const sagaMiddleware = createSagaMiddleware();
 
@@ -27,7 +28,8 @@ const allReducers = combineReducers({
     skillsets: skillsetSlice,
     adminUser: adminUser,
     gameLocations: gameLocationsSlice,
-    onlineUsers: onlineUsers
+    onlineUsers: onlineUsers,
+    newsTicker: newsTicker,
     });
 
 const storeInstance = configureStore({
