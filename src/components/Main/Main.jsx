@@ -9,6 +9,7 @@ import { useEffect } from "react";
 function Main({messages}) {
   const dispatch = useDispatch();
   const character = useSelector(store => store.character);
+const onlineUsers = useSelector(store => store.onlineUsers);
 
   const [screen, setScreen] = useState(window.innerWidth + ' ' + window.innerHeight);
 
@@ -49,6 +50,9 @@ useEffect(() => {
         </Grid>
         <Grid item sm={12}>
         <Typography variant="body">{JSON.stringify(messages)}</Typography>
+        </Grid>
+        <Grid item sm={12}>
+        <Typography variant="body">{JSON.stringify(onlineUsers)}</Typography>
         </Grid>
       </Grid>
     </Paper>

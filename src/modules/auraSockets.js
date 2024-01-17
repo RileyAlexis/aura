@@ -1,6 +1,9 @@
 import { socket } from '../sockets';
 
+import { storeInstance as store } from './store';
+
 export const openSockets = (user, setMsgs) => {
+    const state = store.getState();
     socket.connect();
     socket.on('connect', () => {
       console.log('Connected to Server', user);
@@ -19,7 +22,7 @@ export const openSockets = (user, setMsgs) => {
   
     socket.on('onlineUsers', (data) => {
       console.log('onlineUsers received', data);
-    //   setOnlineUsers(data);
+      store.dispatch({type: "onlineUsers/setAllOnlineUsers", payload: data });
     });
 }
 
