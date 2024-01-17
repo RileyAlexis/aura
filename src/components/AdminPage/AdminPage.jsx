@@ -9,7 +9,7 @@ import { Box, Grid, Stack, Paper, Button, Typography, TextField } from '@mui/mat
 import { setAdmin } from '../../modules/reducers/adminUser';
 
 //Sockets
-import { sendMessage } from '../../modules/auraSockets';
+import { socketService } from '../../modules/auraSockets';
 
 //Components
 import Login from '../Login/Login';
@@ -43,7 +43,8 @@ const loadLocationsData = () => {
 
 const handleMessage = () => {
     console.log(adminUser);
-    sendMessage({ user: adminUser.username, message: newMessage });
+    socketService.emitEvent('message:post', { user: adminUser.username, message: newMessage });
+    
     setNewMessage('');
 }
 

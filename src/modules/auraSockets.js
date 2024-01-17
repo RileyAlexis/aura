@@ -1,16 +1,16 @@
 import { socket } from '../sockets';
 
-// import { storeInstance as store } from './store';
 
-export const openSockets = (user, setMsgs) => {
+export const openSockets = () => {
     // const state = store.getState();
     socket.connect();
     socket.on('connect', () => {
-      console.log('Connected to Server', user);  
+      console.log('Connected to Server', socket.id);  
     });
   
     socket.on('disconect', () => {
-      console.log("Disconnected from server");
+      console.log("Disconnected from server", socket.id);
+      socket.disconnect();
     });
   
     // socket.on('msg:get', (data) => {

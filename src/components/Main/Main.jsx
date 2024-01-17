@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 //Material UI
-import { Paper, Typography, Grid, Button } from "@mui/material";
+import { Paper, Typography, Grid, Button, Stack } from "@mui/material";
 
 //Slice Reducers
 import { setLocation } from '../../modules/reducers/character';
@@ -63,7 +63,15 @@ useEffect(() => {
         <Typography variant="body">{screen}</Typography>
         </Grid>
         <Grid item sm={12}>
-      <Typography variant="body">{JSON.stringify(newsTicker)}</Typography>
+      {/* <Typography variant="body">{JSON.stringify(newsTicker)}</Typography> */}
+
+          {newsTicker?.map((message, i) => (
+            <Stack key={i}>
+            <Typography variant="body">{message.user} - {message.message}</Typography>
+            </Stack>
+          ))}
+
+
         </Grid>
         <Grid item sm={12}>
         <Typography variant="body">{JSON.stringify(onlineUsers)}</Typography>
