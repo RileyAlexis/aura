@@ -4,7 +4,7 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 router.post('/loadBackGroundData', async (req,res) => {
-
+    if (req.isAuthenticated() && req.user.role === 'admin') {
     const backgroundData = require('../gamedata/backgrounds.json');
     let insertedRecords = 0;
     let skippedRecords = 0;
@@ -40,11 +40,15 @@ res.json({ message: `${insertedRecords} new backgrounds added. ${skippedRecords}
     console.error("Error inserting background Data", error);
     res.json({ message: "Error creating backgrounds" });
 }
+    } else {
+        res.json({ message: "User not authorized. Contact system admin" });
+    }
 });
 
 router.post('/loadLocationData', async (req, res) => {
+    if (req.isAuthenticated() && req.user.role === 'admin') {
     const locationData = require('../gamedata/locations.json');
-    console.log(locationData.city);
+    console.log(req.user);
     let insertedRecords = 0;
     let skippedRecords = 0;
 
@@ -81,6 +85,9 @@ router.post('/loadLocationData', async (req, res) => {
         res.json({ message: "Error loading locations" });
     }
 
+} else {
+    res.json({ message: "User not authorized. Contact system admin" })
+}
 
 
 });

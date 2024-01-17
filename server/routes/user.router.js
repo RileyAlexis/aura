@@ -51,7 +51,8 @@ router.post('/login', userStrategy.authenticate('local'), (req, res) => {
   console.log('Login Call made', req.user);
   const dataObj = {
     userId: req.user.id,
-    username: req.user.username
+    username: req.user.username,
+    role: req.user.role
   }
 
   res.send(dataObj);
@@ -70,7 +71,8 @@ router.get('/check-token', (req, res) => {
     console.log("Authenticated", req.user);
     const dataObj = {
       userId: req.user.id,
-      username: req.user.username
+      username: req.user.username,
+      role: req.user.role
     }
   
     res.send(dataObj);

@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 //Material UI
 import { Box, Grid, Stack, Paper, Button, Typography } from '@mui/material';
 
+//Reducer Actions
+import { setAdmin } from '../../modules/reducers/adminUser';
+
+//Components
+import Login from '../Login/Login';
+
 function AdminPage() {
     const [gameLogs, setGameLogs] = useState([]);
+    const adminUser = useSelector(store => store.adminUser);
+    const dispatch = useDispatch();
+
 
 const loadBackGroundData = () => {
     axios.post('/admin/loadBackGroundData')
@@ -27,9 +37,28 @@ const loadLocationsData = () => {
         })
 }
 
+useEffect(() => {
+    const checkToken = async () => {
+        try {
+          //logs user in if a valid token exists
+          const response = await axios.get("/user/check-token");
+          if (response.data.role === 'admin') {
+            console.log('Admin Response.data', response.data);
+          dispatch(setAdmin(response.data));
+          } else setAdmin(null);
+        } catch (error) {
+          console.log("Error authenticating session", error);
+          setAdmin(null);
+        }
+      };
+      console.log(adminUser);
+      checkToken();
+  }, []);
 
     return (
         <Box>
+        {adminUser.role === 'admin' &&
+            <>
             <Grid container spacing={2} justifyContent={"center"}>
                 <Grid item>
                     <Paper elevation={0} style={{ padding: '10px' }}>
@@ -64,6 +93,16 @@ const loadLocationsData = () => {
             </Grid>
 
         </Grid>
+        </>
+        }
+        {adminUser.role !== 'admin' && 
+            <Paper elevation={5}>
+                <center>
+                <Typography variant='h3'>Access Denied - Contact admin</Typography>
+                <Login />
+                </center>
+            </Paper>
+        }
         </Box>
     )
 }

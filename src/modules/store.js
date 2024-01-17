@@ -6,6 +6,7 @@ import logger from 'redux-logger';
 import userStatsSlice from './reducers/userStats';
 import characterSlice from './reducers/character';
 import skillsetSlice from './reducers/skillsets';
+import adminUser from './reducers/adminUser';
 
 // const sagaMiddleware = createSagaMiddleware();
 
@@ -22,6 +23,7 @@ const allReducers = combineReducers({
     user: userStatsSlice,
     character: characterSlice,
     skillsets: skillsetSlice,
+    adminUser: adminUser,
     });
 
 const storeInstance = configureStore({
