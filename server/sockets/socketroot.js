@@ -28,6 +28,7 @@ function initializeSockets(server) {
     
         socket.on('message:post', (data) => {
             messages.push({ user: data.user, message: data.message });
+            io.emit("messages",  messages); //use io to send to all connections
             console.log('New Message', data);
             console.log(openConnections);
         });
@@ -39,14 +40,10 @@ function initializeSockets(server) {
         });
 
     
-        socket.emit("messages",  messages);
+        // socket.emit("messages",  messages);
         socket.emit("onlineUsers", onlineUsers);
     });
 
-    // io.on('disconnect', (socket) => {
-    //     console.log("A user disconected from ", socket.id);
-    //     openConnections = openConnections.filter((item) => item !== socket.id);
-    // });
 }
 
 module.exports = initializeSockets;

@@ -17,7 +17,7 @@ function Main() {
   const dispatch = useDispatch();
   const character = useSelector(store => store.character);
   const onlineUsers = useSelector(store => store.onlineUsers);
-  const newsTicker = useSelector(store => store.newsTicker);
+  const newsTicker = useSelector(state => state.newsTicker);
   const [screen, setScreen] = useState(window.innerWidth + ' ' + window.innerHeight);
 
 const handleLocation = (id) => {
@@ -27,21 +27,11 @@ const handleLocation = (id) => {
 }
 
 useEffect(() => {
-  
-  const handleResize = () => {
-    setScreen(window.innerWidth + ' ' + window.innerHeight);
-  }
-  window.addEventListener('resize', handleResize);
 
-  
   socketService.onEvent('messages', ((data) => {
     console.log(data);
     dispatch(setAllTickerData(data));
   }))
-
-  return () => {
-    window.removeEventListener('resize', handleResize);
-  }
 
 }, [])
 
@@ -58,9 +48,6 @@ useEffect(() => {
         </Grid>
         <Grid item sm={12}>
         <Typography variant="body">{character.location}</Typography>
-        </Grid>
-        <Grid item sm={12}>
-        <Typography variant="body">{screen}</Typography>
         </Grid>
         <Grid item sm={12}>
       {/* <Typography variant="body">{JSON.stringify(newsTicker)}</Typography> */}

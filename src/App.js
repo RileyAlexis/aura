@@ -50,17 +50,29 @@ function App() {
     console.log("isSmallScreen", isSmallScreen);
 
     const checkToken = async () => {
-      try {
-        //logs user in if a valid token exists
-        const response = await axios.get("/user/check-token");
-        dispatch(setUserData(response.data));
-        loadCharacter();
-        loadGame();
-        openSockets(); //initializes websockets connection
-      } catch (error) {
-        console.log("Error authenticating session", error);
-        setUserData(null);
-      }
+
+      axios.get("/user/check-token")
+        .then((response) => {
+          dispatch(setUserData(response.data));
+          loadCharacter();
+          loadGame();
+          openSockets(); //initializes websockets connection
+        }).catch ((error) => {
+          console.log("Error authenticating user", error);
+          dispatch(setUserData(null));
+        })
+
+      // try {
+      //   //logs user in if a valid token exists
+      //   const response = await axios.get("/user/check-token");
+      //   dispatch(setUserData(response.data));
+      //   loadCharacter();
+      //   loadGame();
+      //   openSockets(); //initializes websockets connection
+      // } catch (error) {
+      //   console.log("Error authenticating session", error);
+      //   dispatch(setUserData(null));
+      // }
     };
 
     checkToken();
