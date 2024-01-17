@@ -1,15 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    Basic: ['Literacy', 'Net', 'Driving', 'Negotiating'],
-    Thieving: ['Pickpocketing', 'Embezzlement', 'Gambling', 'Robbery', 'Scamming'],
-    Crime: ['Assassination', 'Racketeering', 'Loan Sharking', 'Blackmail' ],
-    Networks: ['Coding', 'Malware', 'Hacking', 'Cyber Security', 'Phreaking'],
-    Corporate: ['Business', 'Political Science', 'Law', 'Research', 'Marketing'],
-    Hardware: ['Circuits', 'Weaponry', 'Explosives', 'Signals', 'Implants'],
-    Cyborgs: ['Enhanced Limbs', 'Nano Enhancements', 'Embedded AI', 'Robotic Bodies', 'Non-Humanoid Bodies'],
-    Engineering: ['Architechture', 'Transportation', 'Cybernetics', 'Nanotech', 'Defense'],
-};
+const initialState = [];
 
 export const skillsetSlice = createSlice({
     name: 'skillsets',

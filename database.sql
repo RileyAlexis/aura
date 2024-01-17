@@ -18,7 +18,8 @@ CREATE TABLE "character_stats" (
     "rejection" INT,
     "charisma" INT,
     "skills" JSONB,
-    "background" INT
+    "background" INT,
+    "coins" INT
     );
 
 CREATE TABLE "backgrounds" (
@@ -35,4 +36,59 @@ CREATE TABLE "locations" (
     "title" VARCHAR(60),
     "description" VARCHAR(1500)
     );
+
+CREATE TABLE "bank" (
+    "id" SERIAL PRIMARY KEY,
+    "userid" INT REFERENCES "character_stats",
+    "account_total" INT,
+    "interest" INT,
+    "fees" INT
+    );
+
+CREATE TABLE "npc" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(75),
+    "strength" INT,
+    "agility" INT,
+    "creativity" INT,
+    "energy" INT,
+    "speed" INT,
+    "education" INT,
+    "rejection" INT,
+    "charisma" INT,
+    "skills" JSONB,
+    "background" INT,
+    "inventory" JSONB,
+    "coins" INT
+    );
+
+CREATE TABLE "weapons" (
+    "id" SERIAL PRIMARY KEY,
+    "title" VARCHAR(75),
+    "area_of_effect" VARCHAR(10),
+    "to_hit" INT,
+    "defense" INT,
+    "damage" VARCHAR(20),
+    "damage_bonus" INT,
+    "weight" INT,
+    "size" VARCHAR(5),
+    "embedded" BOOLEAN,
+    "body_location" VARCHAR(20),
+    "replace_body_part" BOOLEAN,
+    "avg_cost" INT,
+    "cost_mod" INT,
+    "required_skills" INTEGER[]
+    );
+
+CREATE TABLE "skills" (
+    "id" SERIAL PRIMARY KEY,
+    "category" VARCHAR(50),
+    "skill" VARCHAR(50),
+    "available_levels" INT,
+    "points_per_level" INT
+    );
+
+
+
+
 

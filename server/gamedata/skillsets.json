@@ -1,0 +1,231 @@
+[
+    {
+        "category": "Basic",
+        "skill": "Literacy",
+        "available_levels": 10,
+        "points_per_level": 1000
+    },
+    {
+        "category": "Basic",
+        "skill": "Net",
+        "available_levels": 10,
+        "points_per_level": 1000
+    },
+    {
+        "category": "Basic",
+        "skill": "Driving",
+        "available_levels": 10,
+        "points_per_level": 500
+    },
+    {
+        "category": "Basic",
+        "skill": "Negotiating",
+        "available_levels": 10,
+        "points_per_level": 800
+    },
+    {
+        "category": "Thieving",
+        "skill": "Pickpocketing",
+        "available_levels": 15,
+        "points_per_level": 1200
+    },
+    {
+        "category": "Theiving",
+        "skill": "Embezzlement",
+        "available_levels": 15,
+        "points_per_level": 2500
+    },
+    {
+        "category": "Theiving",
+        "skill": "Gambling",
+        "available_levels": 20,
+        "points_per_level": 1600
+    },
+    {
+        "category": "Thieving",
+        "skill": "Robbery",
+        "available_levels": 15,
+        "points_per_level": 1400
+    },
+    {
+        "category": "Thieving",
+        "skill": "Scamming",
+        "available_levels": 20,
+        "points_per_level": 1600
+    },
+    {
+        "category": "Crime",
+        "skill": "Assassination",
+        "available_levels": 20,
+        "points_per_level": 2500
+    },
+    {
+        "category": "Crime",
+        "skill": "Racketeering",
+        "available_levels": 15,
+        "points_per_level": 1600
+    },
+    {
+        "category": "Crime",
+        "skill": "Loan Sharking",
+        "available_levels": 15,
+        "points_per_level": 1200
+    },
+    {
+        "category": "Crime",
+        "skill": "Blackmail",
+        "available_levels": 15,
+        "points_per_level": 1800
+    },
+    {
+        "category": "Networks",
+        "skill": "Coding",
+        "available_levels": 25,
+        "points_per_level": 3000
+    },
+    {
+        "category": "Networks",
+        "skill": "Malware",
+        "available_levels": 25,
+        "points_per_level": 3000
+    },
+    {
+        "category": "Networks",
+        "skill": "Hacking",
+        "available_levels": 25,
+        "points_per_level": 3000
+    },
+    {
+        "category": "Networks",
+        "skill": "Cyber Security",
+        "available_levels": 25,
+        "points_per_level": 3000
+    },
+    {
+        "category": "Networks",
+        "skill": "Phreaking",
+        "available_levels": 25,
+        "points_per_level": 3000
+    },
+    {
+        "category": "Corporate",
+        "skill": "Business",
+        "available_levels": 15,
+        "points_per_level": 800
+    },
+    {
+        "category": "Corporate",
+        "skill": "Political Science",
+        "available_levels": 15,
+        "points_per_level": 800
+    },
+    {
+        "category": "Corporate",
+        "skill": "Law",
+        "available_levels": 25,
+        "points_per_level": 2600
+    },
+    {
+        "category": "Corporate",
+        "skill": "Research",
+        "available_levels": 25,
+        "points_per_level": 3000
+    },
+    {
+        "category": "Corporate",
+        "skill": "Marketing",
+        "available_levels": 15,
+        "points_per_level": 1200
+    },
+    {
+        "category": "Hardware",
+        "skill": "Circuits",
+        "available_levels": 20,
+        "points_per_level": 2000
+    },
+    {
+        "category": "Hardware",
+        "skill": "Weaponry",
+        "available_levels": 20,
+        "points_per_level": 1500
+    },
+    {
+        "category": "Hardware",
+        "skill": "Explosives",
+        "available_levels": 20,
+        "points_per_level": 1500
+    },
+    {
+        "category": "Hardware",
+        "skill": "Signals",
+        "available_levels": 25,
+        "points_per_level": 2000
+    },
+    {
+        "category": "Hardware",
+        "skill": "Implants",
+        "available_levels": 30,
+        "points_per_level": 3500
+    },
+    {
+        "category": "Cybernetics",
+        "skill": "Enhanced Limbs",
+        "available_levels": 30,
+        "points_per_level": 3500
+    },
+    {
+        "category": "Cybernetics",
+        "skill": "Nanotech",
+        "available_levels": 30,
+        "points_per_level": 3500
+    },
+    {
+        "category": "Cybernetics",
+        "skill": "Embedded AI",
+        "available_levels": 30,
+        "points_per_level": 4000
+    },
+    {
+        "category": "Cybernetics",
+        "skill": "Robotic Bodies",
+        "available_levels": 30,
+        "points_per_level": 4000
+    },
+    {
+        "category": "Cybernetics",
+        "skill": "Non-Humanoid Bodies",
+        "available_levels": 30,
+        "points_per_level": 4000
+    },
+    {
+        "category": "Engineering",
+        "skill": "Architechture",
+        "available_levels": 30,
+        "points_per_level": 3000
+    },
+    {
+        "category": "Engineering",
+        "skill": "Transportation",
+        "available_levels": 30,
+        "points_per_level": 3000
+    },
+    {
+        "category": "Engineering",
+        "skill": "Cybernetics",
+        "available_levels": 30,
+        "points_per_level": 3000
+    },
+    {
+        "category": "Engineering",
+        "skill": "Weapon Design",
+        "available_levels": 30,
+        "points_per_level": 3500
+    },
+    {
+        "category": "Engineering",
+        "skill": "Defense",
+        "available_levels": 30,
+        "points_per_level": 3500
+    }
+
+]

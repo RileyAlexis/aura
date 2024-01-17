@@ -41,6 +41,16 @@ const loadLocationsData = () => {
         })
 }
 
+const loadSkillSetData = () => {
+    axios.post('/admin/loadSkillSetData')
+        .then((response) => {
+            console.log(response);
+            setGameLogs((prevLogs) => [...prevLogs, response.data]);
+        }).catch((error) => {
+            console.error(error);
+        })
+}
+
 const handleMessage = () => {
     console.log(adminUser);
     socketService.emitEvent('message:post', { user: adminUser.username, message: newMessage });
@@ -87,6 +97,7 @@ useEffect(() => {
                 <Typography variant='h6'>Game Data</Typography>
                 <Button variant='empty' onClick={loadBackGroundData}><Typography variant='body'>Load Background Data</Typography></Button>
                 <Button variant='empty' onClick={loadLocationsData}><Typography variant='body'>Load Locations Data</Typography></Button>
+                <Button variant='empty' onClick={loadSkillSetData}><Typography variant='body'>Load Skillset Data</Typography></Button>
                 
                 </Paper>
                 </Stack>
@@ -103,7 +114,9 @@ useEffect(() => {
             {/* *********** Data Log ********************* */}
             <Grid item style={{ minWidth: '350px', minHeight: '500px', maxHeight: '500px', overflowY: 'scroll' }}>
                 <Paper elevation={2}>
+                    <center>
                     <Typography variant='h6'>Data Log</Typography>
+                    </center>
                     {gameLogs?.map((line, i) => (
                         <Stack key={i}>
                         <Typography variant='logger'>{line.message}</Typography>

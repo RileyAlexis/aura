@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { setAllCharacterData } from './reducers/character';
 import { setAllLocationData } from './reducers/gameLocations';
+import { setAllSkillsets } from './reducers/skillsets';
 
 export function loadGame() {
     const state = store.getState();
@@ -13,8 +14,30 @@ export function loadGame() {
             store.dispatch(setAllLocationData(response.data));
         }).catch((error) => {
             console.error("Error getting game location data", error);
+        });
+
+    axios.get('/gameData/skillsets')
+        .then((response) => {
+            store.dispatch(setAllSkillsets(response.data));
+        }).catch((error) => {
+            console.error("Error getting skillset data", error);
         })
 };
+
+export function loadCharacter() {
+    const state = store.getState();
+    const user = state.user;
+
+    if (user.userId) {
+        axios.get('/loading/character')
+            .then((response) => {
+                store.dispatch(setAllCharacterData(response.data));
+            }).catch((error) => {
+                console.log(error);
+            });
+    }
+
+}
 
 
 export function saveCharacter() {
@@ -48,17 +71,3 @@ export function saveCharacter() {
         })
 } //End Save Character
 
-export function loadCharacter() {
-    const state = store.getState();
-    const user = state.user;
-
-    if (user.userId) {
-        axios.get('/loading/character')
-            .then((response) => {
-                store.dispatch(setAllCharacterData(response.data));
-            }).catch((error) => {
-                console.log(error);
-            });
-    }
-
-}

@@ -128,8 +128,62 @@ router.post('/loadLocationData', async (req, res) => {
 } else {
     res.json({ message: "User not authorized. Contact system admin" })
 }
-
-
 });
+
+router.post('/loadSkillSetData', async (req, res) => {
+    
+    if (req.isAuthenticated()) {
+
+    //Skillset data is stored in JSON on the server for extensibility
+    const skillSetData = require('../gamedata/skillsets.json');
+    let insertedRecords = 0;
+    let skippedRecords = 0;
+    
+        try {
+            await checkRole(req.user.id);
+            if (admin) {
+                for (let i = 0; i < skillSetData.length; i++) {
+                    const duplicateCheckQuery = {
+                    text: `SELECT * FROM "skills" WHERE "skill" = $1`,
+                    values: [skillSetData[i].skill]
+                    };
+            
+                    const duplicateResult = await pool.query(duplicateCheckQuery.text, duplicateCheckQuery.values);
+                    console.log('Duplicate Result', duplicateResult.rows.length, 'Title:', skillSetData[i].skill);
+                    
+                    if (duplicateResult.rows.length > 0) {
+                        skippedRecords++;
+                    } else if(duplicateResult.rows.length === 0) {
+                        console.log('Not a duplicate, insert data');
+                        
+                        const insertQuery = {
+                            text: `INSERT INTO "skills" ("category", "skill", "available_levels", "points_per_level")
+                                VALUES ($1, $2, $3, $4);`,
+                            values: [ skillSetData[i].category, skillSetData[i].skill, skillSetData[i].available_levels, skillSetData[i].points_per_level ]
+                        };
+            
+                        pool.query(insertQuery.text, insertQuery.values);
+                        insertedRecords++;
+                    } // end else
+            } //End for loop
+                
+            res.json({ message: `${insertedRecords} new skills added. ${skippedRecords} duplicates skipped` });
+
+            } else {
+                //If not admin
+                res.json({ message: "User not authorized. Contact system admin" })
+            }
+
+        } catch (error) {
+            console.error("Error loading skillset data", error);
+            res.json({ message: "Error loading locations" });
+            
+        }
+
+
+    } else {
+        res.json({ message: "User not authorized. Contact system admin" })
+    }
+})
 
 module.exports = router;

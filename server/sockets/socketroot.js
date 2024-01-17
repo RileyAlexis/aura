@@ -21,7 +21,7 @@ function initializeSockets(server) {
         console.log('A user connected to ', socket.id);
         openConnections.push(socket.id);
         console.log("Open socket connections", openConnections);
-    
+        io.emit("messages", messages);
         socket.on('onlineUsers', (data) => {
             console.log('Online Users received', data.user);
         });

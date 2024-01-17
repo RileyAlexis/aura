@@ -37,9 +37,22 @@ router.get('/gameLocations', (req, res) => {
     }
 });
 
+router.get('/skillsets', (req, res) => {
+    if (req.isAuthenticated()) {
+        let queryString = `SELECT * FROm "skills";`;
 
-
-
+        pool.query(queryString)
+            .then((response) => {
+                console.log('Get skills');
+                res.send(response.rows);
+            }).catch((error) => {
+                console.error("error getting skillset data", error);
+                res.sendStatus(500);
+            })
+    } else {
+        res.sendStatus(403);
+    }
+})
 
 
 module.exports = router;
