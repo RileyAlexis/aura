@@ -3,12 +3,39 @@ require('dotenv').config();
 const pool = require('../modules/pool'); 
 const router = express.Router();
 
+let admin = false;
+
+const checkRole = (userId) => {
+    const queryString = `SELECT * FROM "users" WHERE "id" = $1`;
+
+    pool.query(queryString, [userId])
+        .then((response) => {
+            console.log('Db Role', response.rows[0].role);
+            if (response.rows[0].role === 'admin') { 
+                admin = true;
+            } else { 
+                admin = false;
+            }
+            
+        }).catch((error) => {
+        console.log("Error verifying admin uyser", error);
+        return false;
+        })
+
+}
+
+
+
 router.post('/loadBackGroundData', async (req,res) => {
-    if (req.isAuthenticated() && req.user.role === 'admin') {
+    if (req.isAuthenticated()) {   
+
     const backgroundData = require('../gamedata/backgrounds.json');
     let insertedRecords = 0;
     let skippedRecords = 0;
 try {
+    await checkRole(req.user.id);
+    if (admin) {
+
         for (let i = 0; i < backgroundData.length; i++) {
         const duplicateCheckQuery = {
         text: `SELECT * FROM "backgrounds" WHERE "title" = $1`,
@@ -33,9 +60,12 @@ try {
             insertedRecords++;
         } // end else
 } //End for loop
-
+    
 res.json({ message: `${insertedRecords} new backgrounds added. ${skippedRecords} duplicates skipped` });
+    } else {
+        res.json({ message: "User not authorized. Contact system admin" });
 
+    }
 } catch (error) {
     console.error("Error inserting background Data", error);
     res.json({ message: "Error creating backgrounds" });
@@ -43,6 +73,7 @@ res.json({ message: `${insertedRecords} new backgrounds added. ${skippedRecords}
     } else {
         res.json({ message: "User not authorized. Contact system admin" });
     }
+
 });
 
 router.post('/loadLocationData', async (req, res) => {
@@ -54,6 +85,8 @@ router.post('/loadLocationData', async (req, res) => {
 
     //Add city location data
     try {
+        await checkRole(req.user.id);
+        if (admin) {
         for (let i = 0; i < locationData.city.length; i++) {
             const duplicateCheckQuery = {
                 text: `SELECT * FROM "locations" WHERE "title" = $1`,
@@ -80,6 +113,10 @@ router.post('/loadLocationData', async (req, res) => {
         } //End for loop
         
         res.json({ message: `${insertedRecords} new locations added. ${skippedRecords} duplicates skipped` });
+    } else {
+    res.json({ message: "User not authorized. Contact system admin" })
+
+    }
     } catch (error) {
         console.error("Error loading location data", error);
         res.json({ message: "Error loading locations" });
