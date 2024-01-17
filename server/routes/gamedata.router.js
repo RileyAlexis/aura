@@ -9,7 +9,7 @@ router.get('/backgrounds', (req,res) => {
 
         pool.query(queryString)
             .then((response) => {
-                console.log('Get Backgrounds', response.rows);
+                console.log('Get Backgrounds');
                 res.send(response.rows);
             }).catch((error) => {
                 console.error(error);
@@ -26,7 +26,7 @@ router.get('/gameLocations', (req, res) => {
 
         pool.query(queryString)
             .then((response) => {
-                console.log('Get Locations', response.rows);
+                console.log('Get Locations');
                 res.send(response.rows);
             }).catch((error) => {
                 console.error(error);

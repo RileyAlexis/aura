@@ -3,16 +3,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 //Material UI
-import { Box, Grid, Stack, Paper, Button, Typography } from '@mui/material';
+import { Box, Grid, Stack, Paper, Button, Typography, TextField } from '@mui/material';
 
 //Reducer Actions
 import { setAdmin } from '../../modules/reducers/adminUser';
+
+//Sockets
+import { sendMessage } from '../../modules/auraSockets';
 
 //Components
 import Login from '../Login/Login';
 
 function AdminPage() {
     const [gameLogs, setGameLogs] = useState([]);
+    const [newMessage, setNewMessage] = useState();
     const adminUser = useSelector(store => store.adminUser);
     const dispatch = useDispatch();
 
@@ -35,6 +39,12 @@ const loadLocationsData = () => {
         }).catch((error) => {
             console.error(error);
         })
+}
+
+const handleMessage = () => {
+    console.log(adminUser);
+    sendMessage({ user: adminUser.username, message: newMessage });
+    setNewMessage('');
 }
 
 useEffect(() => {
@@ -80,8 +90,17 @@ useEffect(() => {
                 </Paper>
                 </Stack>
                 </Grid>
+            <Grid item>
+                <Paper elevation={3}>
+            <Typography variant='h5'>Message</Typography>
+            <TextField variant='filled' label="Message" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
+            <Button variant='empty' onClick={handleMessage}><Typography variant='body'>Send</Typography></Button>
+            </Paper>
+        </Grid>
 
-            <Grid item style={{ minWidth: '350px', minHeight: '500px' }}>
+
+            {/* *********** Data Log ********************* */}
+            <Grid item style={{ minWidth: '350px', minHeight: '500px', maxHeight: '500px', overflowY: 'scroll' }}>
                 <Paper elevation={2}>
                     <Typography variant='h6'>Data Log</Typography>
                     {gameLogs?.map((line, i) => (

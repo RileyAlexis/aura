@@ -6,9 +6,8 @@ import { useDispatch } from "react-redux";
 import { setLocation } from '../../modules/reducers/character';
 import { useEffect } from "react";
 
-function Main() {
+function Main({messages}) {
   const dispatch = useDispatch();
-  const gameLocations = useSelector(store => store.gameLocations);
   const character = useSelector(store => store.character);
 
   const [screen, setScreen] = useState(window.innerWidth + ' ' + window.innerHeight);
@@ -47,6 +46,9 @@ useEffect(() => {
         </Grid>
         <Grid item sm={12}>
         <Typography variant="body">{screen}</Typography>
+        </Grid>
+        <Grid item sm={12}>
+        <Typography variant="body">{JSON.stringify(messages)}</Typography>
         </Grid>
       </Grid>
     </Paper>

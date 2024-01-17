@@ -108,7 +108,7 @@ function App() {
               }
 
             {character.name !== '' && user.userId && 
-              <Main />
+              <Main messages={msgs}/>
             }
             
             </Grid>

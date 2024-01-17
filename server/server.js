@@ -3,19 +3,13 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { createServer } = require('http');
-const { Server } = require('socket.io');
-
+const initializeSockets = require('./sockets/socketroot')
 
 // const bodyParser = require('body-parser');
 
 const app = express();
 const httpServer = createServer(app);
-  const io = new Server(httpServer, {
-    cors: {
-        origin: "http://localhost:3000",
-        credentials: true
-    }
-});
+
 
 const sessionMiddleware = require('./modules/session-middleware');
 const passport = require('./strategies/user.strategy');
@@ -57,47 +51,15 @@ app.use('/admin', adminRouter);
 app.use(express.static('build'));
 
 /* --------------- Websockets connections ----------------- */
-const checkAuth = (req, res, next) => {
-    if (req.user) {
-        console.log('Verified');
-      return next();
-    }
-    res.status(401).send('Unauthorized');
-  };
-
-const messages = {
-    user: 'Riley',
-    message: 'Websockets has connected to the things and it probably mostly works now'
-};
-
-const onlineUsers = [];
-io.engine.use(sessionMiddleware);
-
-io.use((socket, next) => {
-    console.log(socket.request.session);
-    const handshakeData = socket.request;
-    if (handshakeData.session && handshakeData.session.passport && handshakeData.session.passport.user) {
-        return next();
-    }
-    next(new Error('Unauthorized'));
-});
-
-io.on('connection', (socket) => {
-    console.log('A user connected to ', socket.id);
-    
-    socket.on('onlineUsers', (data) => {
-        console.log('Online Users received', data.user);
-        if (data.user !== null || data.user !== undefined) onlineUsers.push(data.user);
-    });
-
-    socket.emit("msg:get", { messages });
-    socket.emit("onlineUsers", { onlineUsers });
-    
-});
-
-io.on('disconnect', (socket) => {
-    console.log("A user disconected from ", socket.id);
-});
+// const checkAuth = (req, res, next) => {
+//     if (req.user) {
+//         console.log('Verified');
+//       return next();
+//     }
+//     res.status(401).send('Unauthorized');
+//   };
+const io = initializeSockets(httpServer);
+// io.engine.use(sessionMiddleware);
 
 
 /** ---------- START SERVER ---------- **/

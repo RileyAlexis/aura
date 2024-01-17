@@ -22,3 +22,7 @@ export const openSockets = (user, setMsgs) => {
     //   setOnlineUsers(data);
     });
 }
+
+export const sendMessage = (message) => {
+  socket.emit('msg:post', ({user: message.user, message: message.message }))
+}
