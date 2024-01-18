@@ -159,6 +159,8 @@ const processSkillsetData = async (skillsetData) => {
  return { insertedRecords: insertedRecords, skippedRecords: skippedRecords }
 }
 
+// ******************** ROUTES ***************************
+
 //Loads the character backgrounds
 router.post('/loadBackGroundData', checkAdminAuth, async (req,res) => {
         try {
@@ -170,7 +172,6 @@ router.post('/loadBackGroundData', checkAdminAuth, async (req,res) => {
         }
     });
 
-
 //Loads the game location data
 router.post('/loadLocationData', checkAdminAuth, async (req, res) => {
     try {
@@ -180,8 +181,6 @@ router.post('/loadLocationData', checkAdminAuth, async (req, res) => {
     } catch (error) {
         res.json({ message: "Error inserting location data"});
     }
-    
-
 });
 
 router.post('/loadSkillSetData', checkAdminAuth, async (req, res) => {

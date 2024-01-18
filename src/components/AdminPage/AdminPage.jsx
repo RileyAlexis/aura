@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -19,13 +19,15 @@ function AdminPage() {
     const [newMessage, setNewMessage] = useState();
     const adminUser = useSelector(store => store.adminUser);
     const dispatch = useDispatch();
+    const gridContainerRef = useRef();
+    const lastItemRef = useRef();
 
 
 const loadBackGroundData = () => {
     axios.post('/admin/loadBackGroundData')
     .then((response) => {
         console.log(response);
-        setGameLogs((prevLogs) => [...prevLogs, response.data]);
+        setGameLogs((prevLogs) => [response.data, ...prevLogs]);
     }).catch((error) => {
         console.error(error);
     })
@@ -35,7 +37,7 @@ const loadLocationsData = () => {
     axios.post('/admin/loadLocationData')
         .then((response) => {
             console.log(response);
-            setGameLogs((prevLogs) => [...prevLogs, response.data]);
+            setGameLogs((prevLogs) => [response.data, ...prevLogs]);
         }).catch((error) => {
             console.error(error);
         })
@@ -45,7 +47,7 @@ const loadSkillSetData = () => {
     axios.post('/admin/loadSkillSetData')
         .then((response) => {
             console.log(response);
-            setGameLogs((prevLogs) => [...prevLogs, response.data]);
+            setGameLogs((prevLogs) => [response.data, ...prevLogs]);
         }).catch((error) => {
             console.error(error);
         })
@@ -87,20 +89,18 @@ useEffect(() => {
                     </Paper>
                 </Grid>
                 </Grid>
-        <Grid container spacing={2} justifyContent={"space-around"}
+        <Grid container ref={gridContainerRef} spacing={2} justifyContent={"space-around"}
                 style={{ margin: '10px'}}>
             <Grid item>
-            <Stack direction={"column"} spacing={2}
-                    style={{ margin: '5px', padding: '5px'}}
-                    >
+
             <Paper elevation={2}>
-                <Typography variant='h6'>Game Data</Typography>
+                <Stack>
+                <center><Typography variant='h6'>Game Data</Typography></center>
                 <Button variant='empty' onClick={loadBackGroundData}><Typography variant='body'>Load Background Data</Typography></Button>
                 <Button variant='empty' onClick={loadLocationsData}><Typography variant='body'>Load Locations Data</Typography></Button>
                 <Button variant='empty' onClick={loadSkillSetData}><Typography variant='body'>Load Skillset Data</Typography></Button>
-                
-                </Paper>
                 </Stack>
+                </Paper>
                 </Grid>
             <Grid item>
                 <Paper elevation={3}>
@@ -112,8 +112,8 @@ useEffect(() => {
 
 
             {/* *********** Data Log ********************* */}
-            <Grid item style={{ minWidth: '350px', minHeight: '500px', maxHeight: '500px', overflowY: 'scroll' }}>
-                <Paper elevation={2}>
+            <Grid item ref={lastItemRef} style={{ minWidth: '350px', minHeight: '500px', maxHeight: '500px', overflowY: 'scroll' }}>
+                <Paper elevation={2} style={{ padding: '15px' }}>
                     <center>
                     <Typography variant='h6'>Data Log</Typography>
                     </center>
