@@ -1,46 +1,56 @@
 const express = require('express');
 require('dotenv').config();
 const pool = require('../modules/pool'); 
+const passport = require('passport');
 const router = express.Router();
 
-let admin = false;
 
 //Before allowing changes to game data the users admin status is verified by the DB
 const checkRole = (userId) => {
-    const queryString = `SELECT * FROM "users" WHERE "id" = $1`;
+    // const queryString = `SELECT * FROM "users" WHERE "id" = $1`;
 
-    pool.query(queryString, [userId])
-        .then((response) => {
-            console.log('Db Role', response.rows[0].role);
-            if (response.rows[0].role === 'admin') { 
-                admin = true;
-            } else { 
-                admin = false;
-            }
+    // pool.query(queryString, [userId])
+    //     .then((response) => {
+    //         console.log('Db Role', response.rows[0].role);
+    //         if (response.rows[0].role === 'admin') { 
+    //             return next();
+    //         } else { 
+    //             res.json({ message: "User does not have admin privleges" });
+    //         }
             
-        }).catch((error) => {
-        console.log("Error verifying admin uyser", error);
-        return false;
-        })
+    //     }).catch((error) => {
+    //     console.log("Error verifying admin user", error);
+    //     res.sendStatus(403);
+    //     })
 }
 
-//Loads the character backgrounds
-router.post('/loadBackGroundData', async (req,res) => {
-    if (req.isAuthenticated()) {   
+const checkAdminAuth = async (req, res, next) => {
+    const queryString = `SELECT * FROM "users" WHERE "id" = $1`;
+    console.log('auth', req.user);
+    
+    try {
+        const response = await pool.query(queryString, [req.user.id])
+        if (response.rows[0].role === 'admin') {
+            return next();
+        } else {
+            res.json({ message: "User not authorized"})
+        }
+    } catch (error) {
+        console.error("Error verifying admin user", error);
+    }
+    
+};
 
-    //Backgrounds data is stored in JSON on the server for extensibility
-    const backgroundData = require('../gamedata/backgrounds.json');
+const processBackgroundData = async (backgroundData) => {
+
     let insertedRecords = 0;
     let skippedRecords = 0;
-try {
-    await checkRole(req.user.id);
-    if (admin) {
-
-        for (let i = 0; i < backgroundData.length; i++) {
-        const duplicateCheckQuery = {
-        text: `SELECT * FROM "backgrounds" WHERE "title" = $1`,
-        values: [backgroundData[i].title]
-        };
+    
+    for (let i = 0; i < backgroundData.length; i++) {
+        
+        const duplicateCheckQuery = { text: `SELECT * FROM "backgrounds" WHERE "title" = $1`, values: [backgroundData[i].title] };
+        
+        try {
 
         const duplicateResult = await pool.query(duplicateCheckQuery.text, duplicateCheckQuery.values);
         console.log('Duplicate Result', duplicateResult.rows.length, 'Title:', backgroundData[i].title);
@@ -72,22 +82,25 @@ try {
             pool.query(insertQuery.text, insertQuery.values);
             insertedRecords++;
         } // end else
+    } catch (error) {
+        console.error('Error running query');
+        throw error;
+    }
 } //End for loop
-    
-res.json({ message: `${insertedRecords} new backgrounds added. ${skippedRecords} duplicates skipped` });
-    } else {
-        res.json({ message: "User not authorized. Contact system admin" });
+ return { insertedRecords: insertedRecords, skippedRecords: skippedRecords }
+};
 
-    }
-} catch (error) {
-    console.error("Error inserting background Data", error);
-    res.json({ message: "Error creating backgrounds" });
-}
-    } else {
-        res.json({ message: "User not authorized. Contact system admin" });
-    }
+//Loads the character backgrounds
+router.post('/loadBackGroundData', checkAdminAuth, async (req,res) => {
+        try {
+            const backgroundData = require('../gamedata/backgrounds.json');
+            const { insertedRecords, skippedRecords} = await processBackgroundData(backgroundData);
+            res.json({ message: `Background Data - Inserted: ${insertedRecords} - Duplicates: ${skippedRecords}`})
+        } catch (error) {
+            res.json({ message: "Error inserting background data"});
+        }
+    });
 
-});
 
 //Loads the game location data
 router.post('/loadLocationData', async (req, res) => {
