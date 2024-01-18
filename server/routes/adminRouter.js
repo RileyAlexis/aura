@@ -51,9 +51,22 @@ try {
             console.log('Not a duplicate, insert data');
             
             const insertQuery = {
-                text: `INSERT INTO "backgrounds" ("title", "description", "stats", "skills")
-                    VALUES ($1, $2, $3, $4);`,
-                values: [ backgroundData[i].title, backgroundData[i].description, backgroundData[i].stats, backgroundData[i].skills ]
+                text: `INSERT INTO "backgrounds" ("title", "description", "stats", "basic_skills", "thieving_skills", "crime_skills", "network_skills",
+                        "corporate_skills", "hardware_skills", "cybernetic_skills", "engineering_skills")
+                            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`,
+                values: [ 
+                        backgroundData[i].title, 
+                        backgroundData[i].description, 
+                        JSON.stringify(backgroundData[i].stats), 
+                        JSON.stringify(backgroundData[i].basic_skills), 
+                        JSON.stringify(backgroundData[i].thieving_skills), 
+                        JSON.stringify(backgroundData[i].crime_skills), 
+                        JSON.stringify(backgroundData[i].network_skills),
+                        JSON.stringify(backgroundData[i].corporate_skills),
+                        JSON.stringify(backgroundData[i].hardware_skills), 
+                        JSON.stringify(backgroundData[i].cybernetic_skills), 
+                        JSON.stringify(backgroundData[i].engineering_skills)
+                    ]
             };
 
             pool.query(insertQuery.text, insertQuery.values);

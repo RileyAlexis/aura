@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
-import { Grid, Paper, Typography, Button, TextField, FormControl, InputLabel, MenuItem, Select, List, ListItem, ListItemText } from "@mui/material";
+import { Grid, Paper, Typography, Button, TextField, FormControl, InputLabel, MenuItem, 
+        Select, List, ListItem, ListItemText, Stack } from "@mui/material";
 import { setAllCharacterData } from "../../modules/reducers/character";
 import { saveCharacter } from "../../modules/utility";
 
@@ -18,6 +19,7 @@ function CharacterCreate() {
   const [backgrounds, setBackGrounds] = useState();
   const [selectedBackground, setSelectedBackground] = useState({});
   const [backgroundLabel, setBackgroundLabel] = useState('');
+  const skillsArr = ['basic', 'thieving', 'crime', 'network', 'corporate', 'hardware', 'cybernetic', 'engineering'];
   
   const [error, setError] = useState('');
   const [checked, setChecked] = useState(false);
@@ -34,8 +36,6 @@ function CharacterCreate() {
         });
 
 }, []);
-
-
 
   const checkName = () => {
     console.log(name);
@@ -72,23 +72,34 @@ function CharacterCreate() {
     // console.log(selectedBackground.id, checked);
     if (selectedBackground.id === undefined) { return (setError("Select a background")) }
     if (name === '' || name === undefined) { return (setError("Enter a character name")) }
-
+    console.log('selectedBackground', selectedBackground);
        if (checked) {
         setError('');
         const charObj = {
             name: name,
             background: selectedBackground.id,
             stats: selectedBackground.stats,
-            skills: selectedBackground.skills,
+            basic_skills: selectedBackground.basic_skills,
+            thieving_skills: selectedBackground.thieving_skills,
+            crime_skills: selectedBackground.crime_skills,
+            network_skills: selectedBackground.network_skills,
+            corporate_skills: selectedBackground.corporate_skills,
+            hardware_skills: selectedBackground.hardware_skills,
+            cybernetic_skills: selectedBackground.cybernetic_skills,
+            engineering_skills: selectedBackground.engineering_skills,
             gameLocation: 0
             }
-
+            console.log('character obj', charObj);
         await dispatch(setAllCharacterData(charObj));
         saveCharacter();
         } else if (!checked) {
             checkName();
         }
     }
+
+    const capitalizeFirstLetter = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      };
 
   return (
     <Paper elevation={3}>
@@ -127,32 +138,31 @@ function CharacterCreate() {
             <Typography variant="body">{selectedBackground.description}</Typography>
                 <br />
                     {selectedBackground.stats &&
-                        <Grid item container xs={12} md={12} alignItems={"baseline"} justifyContent={"space-between"}>
+                        <Grid item container xs={12} md={12} alignItems={"baseline"} justifyContent={"space-around"}>
                             <List dense disablePadding>
-                                <Typography variant="h6">Stats:</Typography>
+                                <Typography variant="h5">Stats:</Typography>
                             {Object.entries(selectedBackground.stats).map(([key, value]) => (
-                                <ListItem key={key} disableGutters>
-                                    <ListItemText>
-                                        <Typography variant="body">{key} : {value}</Typography>
-                                    </ListItemText>
-                                </ListItem>                                 
+                                key !== 'alive' &&
+                                <Stack key={key}>
+                                        <Typography variant="subtitle1">{capitalizeFirstLetter(key)} : {value}</Typography>
+                                </Stack>  
+                                                              
                             ))}
                             </List>
                     
                             <List dense disablePadding>
-                        <       Typography variant="h6">Skills:</Typography>
-                                    {Object.entries(selectedBackground.skills).map(([key, value]) => (
-                                        value.length > 0 && 
-                                        <ListItem key={key}>
-                                            <ListItemText>
-                                                <Typography variant="body">
-                                                    {key} : {value.map((item) => (
-                                                    skillsets[key][item] + ' | '
-                                                    ))}
-                                                </Typography>
-                                            </ListItemText>
-                                        </ListItem>        
-                                    ))}
+                                <Typography variant="h5">Skills:</Typography>
+                                  {Object.entries(selectedBackground).map(([key, value]) => (
+                                      key.includes('skills') && value !== null && (
+                                          <Stack key={key} direction={"row"}>
+                                              <Typography variant="subtitle1">{capitalizeFirstLetter(key.split('_')[0])}</Typography>
+                                              <Typography variant="subtitle1"> - </Typography>
+                                              {value?.map((item, i) => (
+                                                  <Typography key={i} variant="subtitle1">{item.skill}, </Typography>
+                                              ))}
+                                          </Stack>
+                                      )
+                                  ))}
                             </List>
                         </Grid>
                     }

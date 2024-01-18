@@ -17,9 +17,20 @@ router.post('/character', (req, res) => {
             req.body.education,
             req.body.rejection,
             req.body.charisma,
-            JSON.stringify(req.body.skills),
-            req.body.background
+            req.body.life,
+            req.body.alive,
+            JSON.stringify(req.body.basic_skills),
+            JSON.stringify(req.body.thieving_skills),
+            JSON.stringify(req.body.crime_skills),
+            JSON.stringify(req.body.network_skills),
+            JSON.stringify(req.body.corporate_skills),
+            JSON.stringify(req.body.hardware_skills),
+            JSON.stringify(req.body.cybernetic_skills),
+            JSON.stringify(req.body.engineering_skills),
+            req.body.background,
+            req.body.coins
         ];
+
         console.log(req.body);
 
         let queryString = `SELECT 1 FROM "character_stats" WHERE "userId" = $1`;
@@ -38,13 +49,25 @@ router.post('/character', (req, res) => {
                                             "education" = $8,
                                             "rejection" = $9,
                                             "charisma" = $10,
-                                            "skills" = $11,
-                                            "background" = $12
+                                            "life" = $11,
+                                            "alive" = $12,
+                                            "basic_skills" = $13,
+                                            "thieving_skills" = $14,
+                                            "crime_skills" = $15,
+                                            "network_skills" = $16,
+                                            "corporate_skills" = $17,
+                                            "hardware_skills" = $18,
+                                            "cybernetic_skills" = $19,
+                                            "engineering_skills" = $20,                                            
+                                            "background" = $21,
+                                            "coins" = $22
                                             WHERE "userId" = $1;`;
                     } else {
                         queryString = `INSERT INTO "character_stats"
-                                        ("userId", "name", "strength", "agility", "creativity", "energy", "speed", "education", "rejection", "charisma", "skills", "background")
-                                        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);`;
+                                        ("userId", "name", "strength", "agility", "creativity", "energy", "speed", "education", "rejection", "charisma", 
+                                        "life", "alive", "basic_skills", "thieving_skills", "crime_skills", "network_skills", "corporate_skills", "hardware_skills",
+                                        "cybernetic_skills", "engineering_skills", "background", "coins")
+                                        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22);`;
                     } //End user ID if statement
 
                     pool.query(queryString, dataArr)

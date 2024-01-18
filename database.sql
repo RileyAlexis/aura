@@ -17,7 +17,16 @@ CREATE TABLE "character_stats" (
     "education" INT,
     "rejection" INT,
     "charisma" INT,
-    "skills" JSONB,
+    "life" INT,
+    "alive" BOOLEAN,
+    "basic_skills" JSONB,
+    "thieving_skills" JSONB,
+    "crime_skills" JSONB,
+    "network_skills" JSONB,
+    "corporate_skills" JSONB,
+    "hardware_skills" JSONB,
+    "cybernetic_skills" JSONB,
+    "engineering_skills" JSONB,
     "background" INT,
     "coins" INT
     );
@@ -27,7 +36,14 @@ CREATE TABLE "backgrounds" (
     "title" VARCHAR(120),
     "description" VARCHAR(1500),
     "stats" JSONB,
-    "skills" JSONB
+    "basic_skills" JSONB,
+    "thieving_skills" JSONB,
+    "crime_skills" JSONB,
+    "network_skills" JSONB,
+    "corporate_skills" JSONB,
+    "hardware_skills" JSONB,
+    "cybernetic_skills" JSONB,
+    "engineering_skills" JSONB
     );
 
 CREATE TABLE "locations" (

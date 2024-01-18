@@ -50,17 +50,28 @@ export function saveCharacter() {
     const dataObj = {
         userId: state.user.userId,
         name: character.name,
-        strength: stats.Strength,
-        agility: stats.Agility,
-        creativity: stats.Creativity,
-        energy: stats.Energy,
-        speed: stats.Speed,
-        education: stats.Education,
-        rejection: stats.Rejection,
-        charisma: stats.Charisma,
-        skills: character.skills,
-        background: character.background
+        strength: stats.strength,
+        agility: stats.agility,
+        creativity: stats.creativity,
+        energy: stats.energy,
+        speed: stats.speed,
+        education: stats.education,
+        rejection: stats.rejection,
+        charisma: stats.charisma,
+        life: stats.life,
+        alive: true,
+        basic_skills: character.basic_skills,
+        thieving_skills: character.thieving_skills,
+        crime_skills: character.crime_skills,
+        network_skills: character.network_skills,
+        corporate_skills: character.corporate_skills,
+        hardware_skills: character.hardware_skills,
+        cybernetic_skills: character.cybernetic_skills,
+        engineering_skills: character.engineering_skills,
+        background: character.background,
+        coins: 0
     }
+    
     console.log(dataObj);
 
     axios.post('/saves/character', dataObj)
