@@ -1,7 +1,6 @@
 const express = require('express');
 require('dotenv').config();
 const pool = require('../modules/pool'); 
-const passport = require('passport');
 const router = express.Router();
 
 
@@ -90,38 +89,15 @@ const processBackgroundData = async (backgroundData) => {
  return { insertedRecords: insertedRecords, skippedRecords: skippedRecords }
 };
 
-//Loads the character backgrounds
-router.post('/loadBackGroundData', checkAdminAuth, async (req,res) => {
-        try {
-            const backgroundData = require('../gamedata/backgrounds.json');
-            const { insertedRecords, skippedRecords} = await processBackgroundData(backgroundData);
-            res.json({ message: `Background Data - Inserted: ${insertedRecords} - Duplicates: ${skippedRecords}`})
-        } catch (error) {
-            res.json({ message: "Error inserting background data"});
-        }
-    });
 
-
-//Loads the game location data
-router.post('/loadLocationData', async (req, res) => {
-
-    if (req.isAuthenticated()) {
-
-    //Location data is stored in JSON on the server for extensibility
-    const locationData = require('../gamedata/locations.json');
+const processLocationData = async (locationData) => {
     let insertedRecords = 0;
     let skippedRecords = 0;
 
-    //Add city location data
-    try {
-        await checkRole(req.user.id);
-        if (admin) {
-        for (let i = 0; i < locationData.city.length; i++) {
-            const duplicateCheckQuery = {
-                text: `SELECT * FROM "locations" WHERE "title" = $1`,
-                values: [locationData.city[i].title]
-                };
+    for (let i = 0; i < locationData.city.length; i++) {
+        const duplicateCheckQuery = { text: `SELECT * FROM "locations" WHERE "title" = $1`, values: [locationData.city[i].title] };
         
+        try {
                 const duplicateResult = await pool.query(duplicateCheckQuery.text, duplicateCheckQuery.values);
                 console.log('Duplicate Result', duplicateResult.rows.length, 'Title:', locationData.city[i].title);
                 
@@ -139,76 +115,82 @@ router.post('/loadLocationData', async (req, res) => {
                     pool.query(insertQuery.text, insertQuery.values);
                     insertedRecords++;
                 } // end else
+            } catch (error) {
+                console.error("Error running query");
+                throw error;
+            }
         } //End for loop
-        
-        res.json({ message: `${insertedRecords} new locations added. ${skippedRecords} duplicates skipped` });
-    } else {
-    res.json({ message: "User not authorized. Contact system admin" })
-
-    }
-    } catch (error) {
-        console.error("Error loading location data", error);
-        res.json({ message: "Error loading locations" });
-    }
-
-} else {
-    res.json({ message: "User not authorized. Contact system admin" })
+ return { insertedRecords: insertedRecords, skippedRecords: skippedRecords }
 }
-});
 
-router.post('/loadSkillSetData', async (req, res) => {
-    
-    if (req.isAuthenticated()) {
-
-    //Skillset data is stored in JSON on the server for extensibility
-    const skillSetData = require('../gamedata/skillsets.json');
+const processSkillsetData = async (skillsetData) => {
     let insertedRecords = 0;
     let skippedRecords = 0;
-    
+
+    for (let i = 0; i < skillsetData.length; i++) {
+        
+            const duplicateCheckQuery = { text: `SELECT * FROM "skills" WHERE "skill" = $1`, values: [skillsetData[i].skill] };
+            const duplicateResult = await pool.query(duplicateCheckQuery.text, duplicateCheckQuery.values);
+            console.log('Duplicate Result', duplicateResult.rows.length, 'Title:', skillsetData[i].skill);
+        
         try {
-            await checkRole(req.user.id);
-            if (admin) {
-                for (let i = 0; i < skillSetData.length; i++) {
-                    const duplicateCheckQuery = {
-                    text: `SELECT * FROM "skills" WHERE "skill" = $1`,
-                    values: [skillSetData[i].skill]
-                    };
-            
-                    const duplicateResult = await pool.query(duplicateCheckQuery.text, duplicateCheckQuery.values);
-                    console.log('Duplicate Result', duplicateResult.rows.length, 'Title:', skillSetData[i].skill);
-                    
-                    if (duplicateResult.rows.length > 0) {
-                        skippedRecords++;
-                    } else if(duplicateResult.rows.length === 0) {
-                        console.log('Not a duplicate, insert data');
-                        
-                        const insertQuery = {
-                            text: `INSERT INTO "skills" ("category", "skill", "available_levels", "points_per_level")
-                                VALUES ($1, $2, $3, $4);`,
-                            values: [ skillSetData[i].category, skillSetData[i].skill, skillSetData[i].available_levels, skillSetData[i].points_per_level ]
-                        };
-            
-                        pool.query(insertQuery.text, insertQuery.values);
-                        insertedRecords++;
-                    } // end else
-            } //End for loop
+                const duplicateResult = await pool.query(duplicateCheckQuery.text, duplicateCheckQuery.values);
+                console.log('Duplicate Result', duplicateResult.rows.length, 'Title:', skillsetData[i].skill);
                 
-            res.json({ message: `${insertedRecords} new skills added. ${skippedRecords} duplicates skipped` });
-
-            } else {
-                //If not admin
-                res.json({ message: "User not authorized. Contact system admin" })
+                if (duplicateResult.rows.length > 0) {
+                    skippedRecords++;
+                } else if(duplicateResult.rows.length === 0) {
+                    console.log('Not a duplicate, insert data');
+                    
+                    const insertQuery = { text: `INSERT INTO "skills" ("category", "skill", "available_levels", "points_per_level")
+                                            VALUES ($1, $2, $3, $4);`,
+                        values: [ skillsetData[i].category, skillsetData[i].skill, skillsetData[i].available_levels, skillsetData[i].points_per_level ]
+                    };
+        
+                    pool.query(insertQuery.text, insertQuery.values);
+                    insertedRecords++;
+                } // end else
+            } catch (error) {
+                console.error("Error running query");
+                throw error;
             }
+        } //End for loop
 
+ return { insertedRecords: insertedRecords, skippedRecords: skippedRecords }
+}
+
+//Loads the character backgrounds
+router.post('/loadBackGroundData', checkAdminAuth, async (req,res) => {
+        try {
+            const backgroundData = require('../gamedata/backgrounds.json');
+            const { insertedRecords, skippedRecords} = await processBackgroundData(backgroundData);
+            res.json({ message: `Background Data - Inserted: ${insertedRecords} - Duplicates: ${skippedRecords}`})
         } catch (error) {
-            console.error("Error loading skillset data", error);
-            res.json({ message: "Error loading locations" });
-            
+            res.json({ message: "Error inserting background data"});
         }
+    });
 
 
-    } else {
-        res.json({ message: "User not authorized. Contact system admin" })
+//Loads the game location data
+router.post('/loadLocationData', checkAdminAuth, async (req, res) => {
+    try {
+        const locationData = require('../gamedata/locations.json');
+        const { insertedRecords, skippedRecords } = await processLocationData(locationData);
+        res.json({ message: `Locations Data - Inserted: ${insertedRecords} - Duplicates: ${skippedRecords}`})
+    } catch (error) {
+        res.json({ message: "Error inserting location data"});
+    }
+    
+
+});
+
+router.post('/loadSkillSetData', checkAdminAuth, async (req, res) => {
+    try {
+        const skillsetData = require('../gamedata/skillsets.json');
+        const { insertedRecords, skippedRecords } = await processSkillsetData(skillsetData);
+        res.json({ message: `Skillset Data - Inserted: ${insertedRecords} - Duplicates: ${skippedRecords}`})
+    } catch (error) {
+        res.json({ message: "Error inserting location data"});
     }
 })
 
