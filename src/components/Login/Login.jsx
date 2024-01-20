@@ -7,6 +7,7 @@ import { Typography, TextField, Button, Paper, Box, Grid } from "@mui/material";
 
 import { setUserData } from "../../modules/reducers/userStats";
 import { setLocation } from "../../modules/reducers/character";
+import { loadCharacter, loadGame } from "../../modules/utility";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -28,6 +29,8 @@ function Login() {
         console.log("Login Successful", response.data);
         dispatch(setUserData(response.data));
         dispatch(setLocation('0'));
+        loadCharacter();
+        loadGame();
       })
       .catch((error) => {
         console.log("Error Logging in", error);
@@ -59,6 +62,7 @@ function Login() {
           console.log("User created successfully", response.data);
           dispatch(setUserData(response.data));
           dispatch(setLocation('0'));
+          loadGame();
         })
         .catch((error) => {
           console.log("User creation not sucessful", error);

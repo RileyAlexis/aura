@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from "axios";
 
 //Material UI
 import { ThemeProvider } from "@emotion/react";
-import { Grid, Typography, Box, Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { Grid, Box,  } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
 import { auraDefault } from "./modules/auraDefault";
 
 
@@ -59,7 +58,7 @@ function App() {
           openSockets(); //initializes websockets connection
         }).catch ((error) => {
           console.log("Error authenticating user", error);
-          dispatch(setUserData(null));
+          dispatch(setUserData(''));
         })
 
       // try {

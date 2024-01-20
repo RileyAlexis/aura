@@ -2,7 +2,10 @@ const express = require('express');
 require('dotenv').config();
 const pool = require('../modules/pool'); 
 const router = express.Router();
+const fs = require('fs');
 
+const fileops = require('./routeModules/writejson');
+const passport = require('passport');
 
 //Before allowing changes to game data the users admin status is verified by the DB
 const checkRole = (userId) => {
@@ -191,6 +194,37 @@ router.post('/loadSkillSetData', checkAdminAuth, async (req, res) => {
     } catch (error) {
         res.json({ message: "Error inserting location data"});
     }
-})
+});
+
+router.post('/testJSON', checkAdminAuth, async (req, res) => {
+   const data = { property1: 'test', property2: "test2" };
+   
+
+    await fileops.createJSONFile('data.json');
+   let parsedData = [];
+   try {
+    parsedData = await fileops.readJSONData('data.json');
+    console.log('*****Parsed Data********', parsedData);
+   } catch (readError) {
+    console.error('Error reading JSON file', readError);
+    parsedData = [];
+   } finally {
+       parsedData.push(data);
+
+       console.log('******* After function calls************');
+       console.log(parsedData.length);
+       console.log(typeof parsedData, parsedData);
+
+   }
+   try {
+    await fileops.writeDataToJSON('data.json', parsedData);
+    res.json( { message: 'Data appended successfully'}); 
+   } catch (error) {
+    console.error('Error writing data', error);
+    res.json( { message: 'Error writing to JSON file'});
+   }
+});
+
+
 
 module.exports = router;

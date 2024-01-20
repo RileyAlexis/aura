@@ -53,6 +53,16 @@ const loadSkillSetData = () => {
         })
 }
 
+const loadJSONStuff = () => {
+    axios.post('/admin/testJSON')
+        .then((response) => {
+            console.log(response);
+            setGameLogs((prevLogs) => [response.data, ...prevLogs])
+        }).catch((error) => {
+            console.error(error);
+        })
+}
+
 const handleMessage = () => {
     console.log(adminUser);
     socketService.emitEvent('message:post', { user: adminUser.username, message: newMessage });
@@ -91,8 +101,9 @@ useEffect(() => {
                 </Grid>
         <Grid container ref={gridContainerRef} spacing={2} justifyContent={"space-around"}
                 style={{ margin: '10px'}}>
+            
+            {/* ******** Game Data Box ********* */}
             <Grid item>
-
             <Paper elevation={2}>
                 <Stack>
                 <center><Typography variant='h6'>Game Data</Typography></center>
@@ -102,6 +113,19 @@ useEffect(() => {
                 </Stack>
                 </Paper>
                 </Grid>
+
+            <Grid item>
+                <Paper elevation={2}>
+                    <Stack>
+                        <center><Typography variant='h6'>May Explode When Pressed</Typography></center>
+                        <Button variant='empty' onClick={loadJSONStuff}><Typography variant='body'>JSON Save Route</Typography></Button>
+                    </Stack>
+                </Paper>
+            </Grid>
+
+
+
+                {/* ********* Message Sending Box ********** */}
             <Grid item>
                 <Paper elevation={3}>
             <Typography variant='h5'>Message</Typography>
