@@ -16,30 +16,30 @@ import newsTicker from './reducers/newsTicker';
 //Wrapping the allReducers in a root reducer allows the entire store 
 //to be reset to initialstate without adding a reducer to every slice
 const rootReducer = (state, action) => {
-    if (action.type === 'RESET_ENTIRE_STORE') {
-      state = undefined;
-    }
-    return allReducers(state, action);
+  if (action.type === 'RESET_ENTIRE_STORE') {
+    state = undefined;
   }
+  return allReducers(state, action);
+}
 
 const allReducers = combineReducers({
-    user: userStatsSlice,
-    character: characterSlice,
-    skillsets: skillsetSlice,
-    adminUser: adminUser,
-    gameLocations: gameLocationsSlice,
-    onlineUsers: onlineUsers,
-    newsTicker: newsTicker,
-    });
+  user: userStatsSlice,
+  character: characterSlice,
+  skillsets: skillsetSlice,
+  adminUser: adminUser,
+  gameLocations: gameLocationsSlice,
+  onlineUsers: onlineUsers,
+  newsTicker: newsTicker,
+});
 
 const storeInstance = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware(
-      { thunk: false, serializableCheck: false })
-      .concat(
-        logger
-      )
-  });
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(
+    { thunk: false, serializableCheck: false })
+    .concat(
+    // logger
+  )
+});
 
 //   sagaMiddleware.run(rootSaga);
 

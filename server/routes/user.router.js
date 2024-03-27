@@ -23,20 +23,21 @@ router.post('/register', (req, res, next) => {
     VALUES ($1, $2, $3) RETURNING id`;
   pool.query(queryText, [username, password, "player"])
     .then((response) => {
-      
+
       const newUser = {
         id: response.rows[0].id,
         username: username,
         password: password,
         role: 'player'
       };
-      console.log('userId', response.rows[0].id);
+      // console.log('userId', response.rows[0].id);
       //Creates the session
       req.login(newUser, (err) => {
         if (err) {
           console.error(err);
           return err;
-        }});
+        }
+      });
 
       res.send({ userId: response.rows[0].id, username: username })
     })
@@ -68,13 +69,13 @@ router.post('/logout', (req, res) => {
 router.get('/check-token', (req, res) => {
   console.log("check-token route called");
   if (req.isAuthenticated()) {
-    console.log("Authenticated", req.user);
+    // console.log("Authenticated", req.user);
     const dataObj = {
       userId: req.user.id,
       username: req.user.username,
       role: req.user.role
     }
-  
+
     res.send(dataObj);
   } else {
     res.sendStatus(401);

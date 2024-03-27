@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { Grid, Button, Paper, Typography } from "@mui/material";
+import { Grid, Button, Paper, Typography, Stack } from "@mui/material";
 
 import { setLocation } from "../../modules/reducers/character";
 
@@ -16,16 +16,14 @@ function Sidebar() {
 
   return (
     <Paper elevation={2}>
-
+      <Stack>
         {gameLocations?.map((item, i) => (
-         
-            <Grid item key={i}>
-              <Button variant="outline" disableElevation size="small" onClick={() => handleLocation(i)}>
-                {item.title} 
-              </Button>
-            </Grid>
-          
+          <Button key={i} variant="sidebar" size="small" onClick={() => handleLocation(i)}>
+            {item.title}
+          </Button>
+
         ))}
+      </Stack>
     </Paper>
   );
 }

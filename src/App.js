@@ -7,7 +7,7 @@ import axios from "axios";
 
 //Material UI
 import { ThemeProvider } from "@emotion/react";
-import { Grid, Box,  } from "@mui/material";
+import { Grid, Box, } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
 import { auraDefault } from "./modules/auraDefault";
 
@@ -43,35 +43,24 @@ function App() {
   const [msgs, setMsgs] = useState([]);
 
   useEffect(() => {
-    document.body.style.backgroundColor =
-      currentTheme.palette.backgroundColor.default;
+    // document.body.style.backgroundColor =
+    //   currentTheme.palette.backgroundColor.default;
 
     console.log("isSmallScreen", isSmallScreen);
 
     const checkToken = async () => {
 
-      axios.get("/user/check-token")
+      await axios.get("/user/check-token")
         .then((response) => {
           dispatch(setUserData(response.data));
           loadCharacter();
           loadGame();
           openSockets(); //initializes websockets connection
-        }).catch ((error) => {
+        }).catch((error) => {
           console.log("Error authenticating user", error);
           dispatch(setUserData(''));
         })
 
-      // try {
-      //   //logs user in if a valid token exists
-      //   const response = await axios.get("/user/check-token");
-      //   dispatch(setUserData(response.data));
-      //   loadCharacter();
-      //   loadGame();
-      //   openSockets(); //initializes websockets connection
-      // } catch (error) {
-      //   console.log("Error authenticating session", error);
-      //   dispatch(setUserData(null));
-      // }
     };
 
     checkToken();
@@ -80,57 +69,57 @@ function App() {
 
   return (
     <ThemeProvider theme={auraDefault}>
-    <Router>
-      <Switch>
-        <Route path="/admin" component={AdminPage} />
-      </Switch>
-  
-      <Route path="/" exact>
-      <Box sx={{ flexGrow: 1, margin: 0 }}>
-        
-        {/* Top title and nav bar */}
-        <Grid container rowSpacing={2} columnSpacing={2} gap={2} justifyContent="space-between" alignItems="baseline"
-          sx={{ marginBottom: 3 }}>
-          <Grid item component={AuraTitle} />
-          <Grid item component={Topbar} />
-        </Grid>
+      <Router>
+        <Switch>
+          <Route path="/admin" component={AdminPage} />
+        </Switch>
 
-        {/* End title and nav bar */}
+        <Route path="/" exact>
+          <Box sx={{ flexGrow: 1, margin: 0 }}>
 
-        {/* Main content grid */}
-        <Grid container rowSpacing={2} columnSpacing={2} maxWidth={"xl"} justifyContent={"space-between"} alignContent={"baseline"}>
-          
-          {!isSmallScreen && user.userId && (
-            <Grid item component={Sidebar} />
-          )}
-            
-           
-            <Grid item sm={9} md={10}>
-            
-            {!user.userId &&
-              <Login />
-            }
-
-            {character.name === '' && user.userId &&
-              <CharacterCreate />
-              }
-
-            {character.name !== '' && user.userId && 
-              <Main messages={msgs}/>
-            }
-            
+            {/* Top title and nav bar */}
+            <Grid container rowSpacing={2} columnSpacing={2} gap={2} justifyContent="space-between" alignItems="baseline"
+              sx={{ marginBottom: 3 }}>
+              <Grid item component={AuraTitle} />
+              <Grid item component={Topbar} />
             </Grid>
-            
-          
-            
-            {isSmallScreen && user.userId && (
-              <BottomMenu />
-            )}
-          </Grid>
-      </Box>
-              </Route>
-    
-    </Router>
+
+            {/* End title and nav bar */}
+
+            {/* Main content grid */}
+            <Grid container rowSpacing={2} columnSpacing={2} maxWidth={"xl"} justifyContent={"space-between"} alignContent={"baseline"}>
+
+              {!isSmallScreen && user.userId && (
+                <Grid item component={Sidebar} />
+              )}
+
+
+              <Grid item sm={9} md={10}>
+
+                {!user.userId &&
+                  <Login />
+                }
+
+                {character.name === '' && user.userId &&
+                  <CharacterCreate />
+                }
+
+                {character.name !== '' && user.userId &&
+                  <Main messages={msgs} />
+                }
+
+              </Grid>
+
+
+
+              {isSmallScreen && user.userId && (
+                <BottomMenu />
+              )}
+            </Grid>
+          </Box>
+        </Route>
+
+      </Router>
     </ThemeProvider>
   );
 }

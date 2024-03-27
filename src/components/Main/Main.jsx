@@ -20,20 +20,25 @@ function Main() {
   const newsTicker = useSelector(state => state.newsTicker);
   const [screen, setScreen] = useState(window.innerWidth + ' ' + window.innerHeight);
 
-const handleLocation = (id) => {
-  // dispatch(setLocation(event.target.value));
-  console.log(id);
-  dispatch(setLocation(id));
-}
+  const handleLocation = (id) => {
+    // dispatch(setLocation(event.target.value));
+    console.log(id);
+    dispatch(setLocation(id));
+  }
 
-useEffect(() => {
+  useEffect(() => {
 
-  socketService.onEvent('messages', ((data) => {
-    console.log(data);
-    dispatch(setAllTickerData(data));
-  }))
+    socketService.onEvent('messages', ((data) => {
+      console.log(data);
+      dispatch(setAllTickerData(data));
+    }));
 
-}, [])
+    socketService.onEvent('onlineUsers:get', ((data) => {
+      console.log('onlineUsers', data);
+      dispatch(setAllOnlineUsers(data));
+    }))
+
+  })
 
   return (
     <Paper elevation={2}>
@@ -44,24 +49,28 @@ useEffect(() => {
         justifyContent={"space-between"}
       >
         <Grid item sm={12}>
-        <center><Typography variant="h5">Main Content Window</Typography></center>
+          <center><Typography variant="h5">Main Content Window</Typography></center>
         </Grid>
         <Grid item sm={12}>
-        <Typography variant="body">{character.location}</Typography>
+          <Typography variant="body">{character.location}</Typography>
         </Grid>
         <Grid item sm={12}>
-      {/* <Typography variant="body">{JSON.stringify(newsTicker)}</Typography> */}
+          {/* <Typography variant="body">{JSON.stringify(newsTicker)}</Typography> */}
 
           {newsTicker?.map((message, i) => (
             <Stack key={i}>
-            <Typography variant="body">{message.user} - {message.message}</Typography>
+              <Typography variant="body">{message.user} - {message.message}</Typography>
             </Stack>
           ))}
 
-
         </Grid>
         <Grid item sm={12}>
-        <Typography variant="body">{JSON.stringify(onlineUsers)}</Typography>
+          {onlineUsers?.map((user) => (
+            <Typography key={user.id} variant="body">
+              {user.username}
+            </Typography>
+          ))
+          }
         </Grid>
       </Grid>
     </Paper>
